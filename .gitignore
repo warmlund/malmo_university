@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/c_sharp_net_for_non_beginners/real_estate_manager/obj
+/c_sharp_net_for_non_beginners/real_estate_manager/.vs
