@@ -12,11 +12,27 @@ namespace real_estate_manager
         public LegalForm LegalForm { get; set; }
         public Image EstateImage { get; set; }
 
-        public virtual void CreateId()
+        public virtual void CreateId(List<Estate> estates)
         {
-            int id = 0;
-            Id = id;
+            if (estates == null || estates.Count == 0)
+            {
+                Id = 1;
+                return;
+            }
+
+            HashSet<int> existingIds = new HashSet<int>(estates.Select(e => e.Id));
+
+            int newId = 1;
+
+            while (existingIds.Contains(newId))
+            {
+                newId++;
+            }
+
+            Id = newId;
         }
+
+
 
     }
 }

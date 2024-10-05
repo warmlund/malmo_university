@@ -12,6 +12,6 @@ namespace real_estate_manager
         LegalForm LegalForm { get; set; }
         Image EstateImage { get; set; }
 
-        void CreateId();
+        void CreateId(List<Estate> estates);
     }
 }
