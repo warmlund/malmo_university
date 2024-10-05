@@ -6,7 +6,7 @@ namespace real_estate_manager
     {
         private SchoolType _type;
         public SchoolType Type { get => _type; set => _type = value; }
-        public School(InstitutionType institutionType, int capacity, int numberOfStaff, SchoolType schoolType) : base(institutionType, capacity, numberOfStaff)
+        public School(InstitutionType institutionType, int numberOfStaff, SchoolType schoolType) : base(institutionType, numberOfStaff)
         {
             _type = schoolType;
         }
