@@ -3,10 +3,103 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:real_estate_manager"
+        xmlns:local="clr-namespace:real_estate_manager" 
+        d:DataContext="{d:DesignInstance Type=local:ViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Real Estate Management System" Height="800" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize" Loaded="Window_Loaded">
 
+    <Window.Resources>
+        <local:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Real Estate Manager" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" Margin="10" Grid.Row="0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
+            <Button x:Name="Add" Content="Add Estate" MinWidth="80" Height="25" Margin="5,0,0,0" Command="{Binding AddEstate}"/>
+            <Button x:Name="Remove" Content="Remove Estate" MinWidth="100" Height="25" Margin="10,0,0,0" Command="{Binding RemoveEstate}"/>
+            <Button x:Name="Edit" Content="Edit Estate" MinWidth="100" Height="25" Margin="10,0,0,0" Command="{Binding EditEstate}"/>
+        </StackPanel>
+        <DataGrid Grid.Row="2" Width="Auto" Height="Auto" CanUserReorderColumns="False" CanUserResizeRows="False" IsReadOnly="True" ItemsSource="{Binding Estates, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10" SelectedItem="{Binding SelectedEstate, Mode=TwoWay}" SelectionChanged="DataGrid_SelectionChanged">
+        </DataGrid>
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="2">
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <!--#region Estate -->
+                <TextBlock Text="Address" Grid.Column="0" Grid.Row="1" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="AddressInput" Grid.Column="1" Grid.Row="1" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding Address}" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+
+                <TextBlock Text="Type" Grid.Column="0" Grid.Row="0" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <ComboBox x:Name="EstateType" Grid.Column="1" Grid.Row="0" MinWidth="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType, Mode=TwoWay}" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+
+                <TextBlock Text="Legal Form" Grid.Column="0" Grid.Row="2" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <ComboBox x:Name="LegalForm" Grid.Column="1" Grid.Row="2" MinWidth="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" ItemsSource="{Binding LegalForms}" SelectedItem="{Binding SelectedLegalForm, Mode=TwoWay}" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <!--#endregion-->
+
+                <!--#region Residential -->
+                <TextBlock Text="Residential Area" Grid.Column="0" Grid.Row="3" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="ResAreaInput" Grid.Column="1" Grid.Row="3" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding ResidentialArea, Mode=TwoWay}" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}"/>
+
+                <TextBlock Text="Number of rooms" Grid.Column="0" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="NoOfRooms" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding NumberOfRooms, Mode=TwoWay}" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <!--#endregion-->
+
+                <!--#region Apartment -->
+                <TextBlock Text="Floor Level" Grid.Column="0" Grid.Row="5" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="FloorLevelInput" Grid.Column="1" Grid.Row="5" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding FloorLevel, Mode=TwoWay}" Visibility="{Binding IsApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+
+                <TextBlock Text="Balcony" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Margin="2" Visibility="{Binding IsApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <CheckBox x:Name="BalconyInput" Width="Auto" Height="20" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="6" IsChecked="{Binding HasBalcony, Mode=TwoWay}" Visibility="{Binding IsApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+
+                <TextBlock Text="Sales value" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" Margin="2" Visibility="{Binding IsTenementApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="TenementInput" Width="Auto" Height="20" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="7" Text="{Binding SalesValue}" Visibility="{Binding IsTenementApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+
+                <TextBlock Text="Rent" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" Margin="2" Visibility="{Binding IsRentalApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="RentalInput" Width="Auto" Height="20" VerticalAlignment="Center" Grid.Column="1" Grid.Row="7" Text="{Binding Rent}" Visibility="{Binding IsRentalApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <!--#endregion-->
+
+                <TextBlock Text="Garden Size" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="5" Margin="2" Visibility="{Binding IsVilla, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="GardenInput" Width="Auto" Height="20" VerticalAlignment="center" Grid.Column="1" Grid.Row="5" Text="{Binding GardenSize}" Visibility="{Binding IsVilla, Converter={StaticResource BoolVisibilityConverter}}"/>
+
+                <TextBlock Text="Is Detached" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Margin="2" Visibility="{Binding IsTownHouse, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <CheckBox x:Name="TownHouseInput" Width="Auto" Height="20" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="6" IsChecked="{Binding IsDetached, Mode=TwoWay}" Visibility="{Binding IsTownHouse, Converter={StaticResource BoolVisibilityConverter}}"/>
+
+            </Grid>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Margin="10" Height="50" VerticalAlignment="Bottom">
+            <Button x:Name="CancelEditing" Content="Cancel" Width="120" Height="25" Margin="10" Command="{Binding CancelEdit}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+            <Button x:Name="FinishEditing" Content="Update/Add" Width="120" Height="25" Margin="10" Command="{Binding FinishEditEstate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+        </StackPanel>
     </Grid>
 </Window>
+ 

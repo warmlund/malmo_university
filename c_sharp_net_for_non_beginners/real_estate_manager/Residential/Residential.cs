@@ -5,9 +5,15 @@ using System.Text;
 
 namespace real_estate_manager
 {
-    public abstract class Residential(double residentialArea, int numberOfRooms) : Estate
+    public abstract class Residential : Estate
     {
-        protected double _residentialArea = residentialArea;
-        protected int _numberOfRooms = numberOfRooms;
+        public double ResidentialArea { get; set; }
+        public int NumberOfRooms { get; set; }
+
+        public Residential(double residentialArea, int numberOfRooms)
+        {
+            ResidentialArea = residentialArea;
+            NumberOfRooms = numberOfRooms;
+        }
     }
 }

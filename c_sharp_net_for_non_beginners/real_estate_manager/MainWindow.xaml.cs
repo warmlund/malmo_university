@@ -1,13 +1,5 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace real_estate_manager
 {
@@ -16,9 +8,33 @@ namespace real_estate_manager
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ViewModel _viewModel;
         public MainWindow()
         {
+            _viewModel = new ViewModel();
+            DataContext = _viewModel;
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var dataGrid = sender as DataGrid;
+
+            // Get the selected item (of type Estate, or whatever your data type is)
+            var selectedEstate = dataGrid.SelectedItem as Estate;
+
+            // Set it in the ViewModel
+            if (selectedEstate != null)
+            {
+                _viewModel.SelectedEstate = selectedEstate;
+                _viewModel.EditEstate.RaiseCanExecuteChanged();
+                _viewModel.RemoveEstate.RaiseCanExecuteChanged();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using real_estate_manager.HelperClasses;
+﻿using real_estate_manager.Enum;
+using real_estate_manager.HelperClasses;
 using System.Windows.Controls;
 
 namespace real_estate_manager
@@ -6,10 +7,11 @@ namespace real_estate_manager
     public interface IEstate
     {
         int Id { get; set; }
-        Address Address { get; set; }
+        EstateTypes EstateType { get; set; }
+        string Address { get; set; }
         LegalForm LegalForm { get; set; }
         Image EstateImage { get; set; }
 
-        void UpdateEstateDetails(int id, Address address, LegalForm legalForm, Image estateImage);
+        void UpdateEstateDetails(int id, EstateTypes estateType, string address, LegalForm legalForm, Image estateImage);
     }
 }
