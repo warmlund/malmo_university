@@ -38,13 +38,16 @@ namespace real_estate_manager
 
         #region institution variables
         private InstitutionType _institutionType;
+        private List<InstitutionType> _institutionTypes;
         private SchoolType _schoolType;
+        private List<SchoolType> _schoolTypes;
         private int _numberOfStaff;
         private int _numberOfFaculties;
         private bool _hasEmergencyDepartment;
         private bool _isHospital;
         private bool _isSchool;
         private bool _isUniversity;
+        private bool _isInst;
         #endregion
 
         #region commercial variables
@@ -52,11 +55,13 @@ namespace real_estate_manager
         private double _retailArea;
         private double _storageArea;
         private FactoryType _factoryType;
+        private List<FactoryType> _facTypes;
         private int _numberOfHotelRooms;
         private bool _isFactory;
         private bool _isHotel;
         private bool _isShop;
         private bool _isWarehouse;
+        private bool _isCom;
         #endregion
 
         public AsyncCommand AddEstate { get; private set; }
@@ -89,8 +94,10 @@ namespace real_estate_manager
         #endregion
 
         #region institutional properties
-        public InstitutionType InstitutionType { get { return _institutionType; } set { if (_institutionType != value) { _institutionType = value; OnPropertyChanged(nameof(InstitutionType)); } } }
-        public SchoolType SchoolType { get { return _schoolType; } set { if (_schoolType != value) { _schoolType = value; OnPropertyChanged(nameof(SchoolType)); } } }
+        public InstitutionType SelectedInstitutionType { get { return _institutionType; } set { if (_institutionType != value) { _institutionType = value; OnPropertyChanged(nameof(SelectedInstitutionType)); } } }
+        public List<InstitutionType> InstitutionTypes { get { return _institutionTypes; } set { if (_institutionTypes != value) { _institutionTypes = value; OnPropertyChanged(nameof(InstitutionTypes)); } } }
+        public SchoolType SelectedSchoolType { get { return _schoolType; } set { if (_schoolType != value) { _schoolType = value; OnPropertyChanged(nameof(SelectedSchoolType)); } } }
+        public List<SchoolType> SchoolTypes { get { return _schoolTypes; } set { if (_schoolTypes != value) { _schoolTypes = value; OnPropertyChanged(nameof(SchoolTypes)); } } }
         public int NumberOfStaff { get { return _numberOfStaff; } set { if (_numberOfStaff != value) { _numberOfStaff = value; OnPropertyChanged(nameof(NumberOfStaff)); } } }
         public int NumberOfFacs { get { return _numberOfFaculties; } set { if (_numberOfFaculties != value) { _numberOfFaculties = value; OnPropertyChanged(nameof(NumberOfFacs)); } } }
         public bool HasEmergencyDept { get { return _hasEmergencyDepartment; } set { if (_hasEmergencyDepartment != value) { _hasEmergencyDepartment = value; OnPropertyChanged(nameof(HasEmergencyDept)); } } }
@@ -101,12 +108,15 @@ namespace real_estate_manager
         public double PropertySize { get { return _propertySize; } set { if (_propertySize != value) { _propertySize = value; OnPropertyChanged(nameof(PropertySize)); } } }
         public double RetailArea { get { return _retailArea; } set { if (_retailArea != value) { _retailArea = value; OnPropertyChanged(nameof(RetailArea)); } } }
         public double StorageArea { get { return _storageArea; } set { if (_storageArea != value) { _storageArea = value; OnPropertyChanged(nameof(StorageArea)); } } }
-        public FactoryType FactoryType { get { return _factoryType; } set { if (_factoryType != value) { _factoryType = value; OnPropertyChanged(nameof(FactoryType)); } } }
+        public FactoryType SelectedFactoryType { get { return _factoryType; } set { if (_factoryType != value) { _factoryType = value; OnPropertyChanged(nameof(SelectedFactoryType)); } } }
+        public List<FactoryType> FactoryTypes { get { return _facTypes; } set { if (_facTypes != value) { _facTypes = value; OnPropertyChanged(nameof(FactoryTypes)); } } }
         public int NumberOfHotelRooms { get { return _numberOfHotelRooms; } set { if (_numberOfHotelRooms != value) { _numberOfHotelRooms = value; OnPropertyChanged(nameof(NumberOfHotelRooms)); } } }
         #endregion
 
         #region Visibility properties
         public bool IsResident { get { return _isResident; } set { if (_isResident != value) { _isResident = value; OnPropertyChanged(nameof(IsResident)); } } }
+        public bool IsCommercial { get { return _isCom; } set { if (_isCom != value) { _isCom = value; OnPropertyChanged(nameof(IsCommercial)); } } }
+        public bool IsInstitutional { get { return _isInst; } set { if (_isInst != value) { _isInst = value; OnPropertyChanged(nameof(IsInstitutional)); } } }
         public bool IsVilla { get { return _isVilla; } set { if (_isVilla != value) { _isVilla = value; OnPropertyChanged(nameof(IsVilla)); } } }
         public bool IsApartment { get { return _isApartment; } set { if (_isApartment != value) { _isApartment = value; OnPropertyChanged(nameof(IsApartment)); } } }
         public bool IsRentalApartment { get { return _isRentalApartment; } set { if (_isRentalApartment != value) { _isRentalApartment = value; OnPropertyChanged(nameof(IsRentalApartment)); } } }
@@ -131,6 +141,8 @@ namespace real_estate_manager
         {
             Types = EstateTypes.GetValues(typeof(EstateTypes)).Cast<EstateTypes>().ToList();
             LegalForms = LegalForm.GetValues(typeof(LegalForm)).Cast<LegalForm>().ToList();
+            FactoryTypes = FactoryType.GetValues(typeof(FactoryType)).Cast<FactoryType>().ToList();
+
             Types.Sort();
             LegalForms.Sort();
 
@@ -141,20 +153,10 @@ namespace real_estate_manager
             IsEditingCancelled = false;
 
             Address = string.Empty;
-            IsVilla = false;
-            IsDetached = false;
-            IsRentalApartment = false;
-            IsResident = false;
-            IsApartment = false;
-            IsTenementApartment = false;
-            IsTownHouse = false;
             HasBalcony = false;
-            Rent = 0;
-            SalesValue = 0;
-            GardenSize = 0;
-            FloorLevel = 0;
-            ResidentialArea = 0;
-            NumberOfRooms = 0;
+            NotCommercial();
+            NotInstitutional();
+            NotResidential();
 
             AddEstate = new AsyncCommand(AddNewEstate, CanAddEstate);
             RemoveEstate = new Command(RemoveCurrentEstate, CanRemoveEstate);
@@ -223,8 +225,6 @@ namespace real_estate_manager
                 {
                     if (SelectedType == EstateTypes.Villa)
                     {
-                        NotCommercial();
-                        NotInstitutional();
                         IsResident = true;
                         IsVilla = true;
                         IsTownHouse = false;
@@ -232,14 +232,14 @@ namespace real_estate_manager
                         IsTenementApartment = false;
                         IsRentalApartment = false;
 
-                        _currentEstate = new Villa(ResidentialArea, NumberOfRooms, GardenSize);
+                        NotCommercial();
+                        NotInstitutional();
 
+                        _currentEstate = new Villa(ResidentialArea, NumberOfRooms, GardenSize);
                     }
 
                     else if (SelectedType == EstateTypes.Townhouse)
                     {
-                        NotCommercial();
-                        NotInstitutional();
                         IsResident = true;
                         IsTownHouse = true;
                         IsVilla = true;
@@ -247,17 +247,21 @@ namespace real_estate_manager
                         IsTenementApartment = false;
                         IsRentalApartment = false;
 
+                        NotCommercial();
+                        NotInstitutional();
+
                         _currentEstate = new Townhouse(ResidentialArea, NumberOfRooms, GardenSize, IsDetached);
                     }
 
                     else if (SelectedType == EstateTypes.Apartment)
                     {
-                        NotCommercial();
-                        NotInstitutional();
                         IsResident = true;
                         IsApartment = true;
                         IsVilla = false;
                         IsTownHouse = false;
+
+                        NotCommercial();
+                        NotInstitutional();
 
                         if (SelectedLegalForm == LegalForm.Rental)
                         {
@@ -277,6 +281,11 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.Hotel)
                     {
+                        IsHotel = true;
+                        IsShop = false;
+                        IsWarehouse = false;
+                        IsFactory = false;
+
                         NotResidential();
                         NotInstitutional();
 
@@ -286,6 +295,11 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.Shop)
                     {
+                        IsHotel = false;
+                        IsShop = true;
+                        IsWarehouse = false;
+                        IsFactory = false;
+
                         NotResidential();
                         NotInstitutional();
 
@@ -294,6 +308,11 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.Warehouse)
                     {
+                        IsHotel = false;
+                        IsShop = false;
+                        IsWarehouse = true;
+                        IsFactory = false;
+
                         NotResidential();
                         NotInstitutional();
 
@@ -302,34 +321,51 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.Factory)
                     {
+                        IsHotel = false;
+                        IsShop = false;
+                        IsWarehouse = false;
+                        IsFactory = true;
+
                         NotResidential();
                         NotInstitutional();
 
-                        _currentEstate = new Factory(PropertySize, FactoryType);
+                        _currentEstate = new Factory(PropertySize, SelectedFactoryType);
                     }
 
                     else if (SelectedType == EstateTypes.Hospital)
                     {
+                        IsHospital = true;
+                        IsSchool = false;
+                        IsUniversity= false;
+
                         NotResidential();
                         NotCommercial();
 
-                        _currentEstate = new Hospital(InstitutionType, NumberOfStaff, HasEmergencyDept);
+                        _currentEstate = new Hospital(SelectedInstitutionType, NumberOfStaff, HasEmergencyDept);
                     }
 
                     else if (SelectedType == EstateTypes.School)
                     {
+                        IsHospital = false;
+                        IsSchool = true;
+                        IsUniversity = false;
+
                         NotResidential();
                         NotCommercial();
 
-                        _currentEstate = new School(InstitutionType, NumberOfStaff, SchoolType);
+                        _currentEstate = new School(SelectedInstitutionType, NumberOfStaff, SelectedSchoolType);
                     }
 
                     else if (SelectedType == EstateTypes.University)
                     {
+                        IsHospital = false;
+                        IsSchool = false;
+                        IsUniversity = true;
+
                         NotResidential();
                         NotCommercial();
 
-                        _currentEstate = new University(InstitutionType, NumberOfStaff, NumberOfFacs);
+                        _currentEstate = new University(SelectedInstitutionType, NumberOfStaff, NumberOfFacs);
                     }
                 }
 
@@ -350,12 +386,17 @@ namespace real_estate_manager
 
         private void NotCommercial()
         {
-
+            IsHotel = false;
+            IsShop = false;
+            IsWarehouse = false;
+            IsFactory = false;
         }
 
         private void NotInstitutional()
         {
-
+            IsHospital = false;
+            IsUniversity = false;
+            IsSchool = false;
         }
 
         private void RemoveCurrentEstate()
@@ -381,18 +422,16 @@ namespace real_estate_manager
 
         private void FinishEditing()
         {
-            IsEditing = false;
-            IsApartment = false;
-            IsResident = false;
-            IsVilla = false;
-            IsTownHouse = false;
+            NotCommercial();
+            NotInstitutional();
+            NotResidential();
 
             if (_currentEstate != null)
             {
                 _currentEstate.Address = Address;
                 _currentEstate.LegalForm = SelectedLegalForm;
                 _currentEstate.EstateType = SelectedType;
-                _currentEstate.CreateId();  // Set the estate's ID
+                _currentEstate.CreateId(Estates.ToList());  // Set the estate's ID
                 Estates.Add(_currentEstate);
                 OnPropertyChanged(nameof(Estates));  // Ensure the collection is updated in the UI
             }
@@ -471,12 +510,12 @@ namespace real_estate_manager
 
             else if (SelectedEstate is Institutional institutional)
             {
-                InstitutionType = institutional.InstType;
+                SelectedInstitutionType = institutional.InstType;
                 NumberOfStaff = institutional.NumberOfStaff;
 
                 if (institutional is School school)
                 {
-                    SchoolType = school.Type;
+                    SelectedSchoolType = school.Type;
                 }
 
                 else if (institutional is University university)
@@ -495,7 +534,7 @@ namespace real_estate_manager
 
                 if (commercial is Factory factory)
                 {
-                    FactoryType = factory.FactoryType;
+                    SelectedFactoryType = factory.FactoryType;
                 }
 
                 else if (commercial is Hotel hotel)
@@ -524,13 +563,6 @@ namespace real_estate_manager
         private void ResetInput()
         {
             Address = string.Empty;
-            IsVilla = false;
-            IsDetached = false;
-            IsRentalApartment = false;
-            IsResident = false;
-            IsApartment = false;
-            IsTenementApartment = false;
-            IsTownHouse = false;
             HasBalcony = false;
             Rent = 0;
             SalesValue = 0;
@@ -538,6 +570,14 @@ namespace real_estate_manager
             FloorLevel = 0;
             ResidentialArea = 0;
             NumberOfRooms = 0;
+            NumberOfFacs = 0;
+            NumberOfHotelRooms = 0;
+            NumberOfStaff= 0;
+            PropertySize = 0;
+            RetailArea = 0;
+            StorageArea = 0;
+            HasEmergencyDept = false;
+            
         }
     }
 }
