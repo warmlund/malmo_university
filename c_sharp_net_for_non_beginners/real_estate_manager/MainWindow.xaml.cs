@@ -11,12 +11,15 @@ namespace real_estate_manager
         private ViewModel _viewModel;
         public MainWindow()
         {
-            _viewModel = new ViewModel();
-            DataContext = _viewModel;
-            InitializeComponent();
+            _viewModel = new ViewModel(); //create instance of viewmodel
+            DataContext = _viewModel; //set datacontext to viewmodel
+            InitializeComponent(); 
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /// <summary>
+        /// An eventhandler for checking if the selection in the datagridview has changed
+        /// </summary>
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) 
         {
             var dataGrid = sender as DataGrid;
 
@@ -30,6 +33,11 @@ namespace real_estate_manager
             }
         }
 
+        /// <summary>
+        /// An eventhandler that only accepts whole numbers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EnableOnlyIntegers(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             foreach (var ch in e.Text)
@@ -42,6 +50,12 @@ namespace real_estate_manager
             }
         }
 
+
+        /// <summary>
+        /// An eventhandler that only accepts whole or decimal values
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EnableOnlyDoubles(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             foreach (var ch in e.Text)

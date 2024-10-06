@@ -5,6 +5,9 @@ using System.Text;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// Class for estate type townhouse. inherits villa
+    /// </summary>
     public class Townhouse : Villa
     {
         private bool _isDetached;

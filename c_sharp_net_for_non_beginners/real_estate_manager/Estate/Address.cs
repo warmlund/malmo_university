@@ -6,6 +6,9 @@ using System.Text;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// A class for storing the address of an event
+    /// </summary>
     public class Address
     {
         private string _street;

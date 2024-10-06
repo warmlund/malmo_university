@@ -5,6 +5,9 @@ using System.Text;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// Class for tenement aparments. inherits apartment
+    /// </summary>
     public class Tenement : Apartment
     {
         private double _salesValue;

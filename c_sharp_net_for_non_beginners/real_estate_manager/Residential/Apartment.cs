@@ -5,6 +5,9 @@ using System.Text;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// Class for apartment estate types. inherits from abstract class residential
+    /// </summary>
     public class Apartment : Residential
     {
         private int _floorLevel;

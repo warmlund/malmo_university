@@ -5,6 +5,10 @@ using System.Text;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// Hospital estate class inheriting from the commercial abstract class
+    /// </summary>
+    /// 
     public class Hospital : Institutional
     {
         private bool _hasEmergencyDepartment;

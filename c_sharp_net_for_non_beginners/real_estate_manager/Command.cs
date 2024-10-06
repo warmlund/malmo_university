@@ -2,6 +2,10 @@
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// A command class inheritng Icommand. Used for binding commands from the UI to the viewmodel.
+    /// 
+    /// </summary>
     public class Command : ICommand
     {
         private Action methodToExecute = null;

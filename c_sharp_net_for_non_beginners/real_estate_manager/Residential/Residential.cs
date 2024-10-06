@@ -5,6 +5,9 @@ using System.Text;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// Abstract class for estate type residential
+    /// </summary>
     public abstract class Residential : Estate
     {
         public double ResidentialArea { get; set; }

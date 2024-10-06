@@ -1,5 +1,8 @@
 ﻿namespace real_estate_manager
 {
+    /// <summary>
+    /// Class for estate type villa. inherits abstract class residential
+    /// </summary>
     public class Villa : Residential
     {
         private double _gardenSize;

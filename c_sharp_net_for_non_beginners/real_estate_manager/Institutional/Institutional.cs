@@ -1,5 +1,8 @@
 ﻿namespace real_estate_manager
 {
+    /// <summary>
+    /// Abstract class for institutional estates
+    /// </summary>
     public abstract class Institutional : Estate
     {
         private InstitutionType _instType;
