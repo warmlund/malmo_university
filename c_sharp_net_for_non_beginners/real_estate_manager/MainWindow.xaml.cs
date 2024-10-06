@@ -16,24 +16,41 @@ namespace real_estate_manager
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var dataGrid = sender as DataGrid;
 
-            // Get the selected item (of type Estate, or whatever your data type is)
             var selectedEstate = dataGrid.SelectedItem as Estate;
 
-            // Set it in the ViewModel
             if (selectedEstate != null)
             {
                 _viewModel.SelectedEstate = selectedEstate;
                 _viewModel.EditEstate.RaiseCanExecuteChanged();
                 _viewModel.RemoveEstate.RaiseCanExecuteChanged();
+            }
+        }
+
+        private void EnableOnlyIntegers(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            foreach (var ch in e.Text)
+            {
+                if (!char.IsDigit(ch))
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
+        }
+
+        private void EnableOnlyDoubles(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            foreach (var ch in e.Text)
+            {
+                if (!char.IsDigit(ch) && ch != '.')
+                {
+                    e.Handled = true;
+                    return;
+                }
             }
         }
     }

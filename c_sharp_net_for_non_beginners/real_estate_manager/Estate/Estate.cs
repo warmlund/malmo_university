@@ -1,6 +1,6 @@
 ﻿using real_estate_manager.Enum;
 using real_estate_manager.HelperClasses;
-using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace real_estate_manager
 {
@@ -10,7 +10,7 @@ namespace real_estate_manager
         public EstateTypes EstateType { get; set; }
         public string Address { get; set; }
         public LegalForm LegalForm { get; set; }
-        public Image EstateImage { get; set; }
+        public BitmapImage EstateImage { get; set; }
 
         public virtual void CreateId(List<Estate> estates)
         {

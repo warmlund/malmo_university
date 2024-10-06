@@ -1,11 +1,18 @@
-﻿using real_estate_manager.Enum;
+﻿using Microsoft.Win32;
+using real_estate_manager.Enum;
 using real_estate_manager.HelperClasses;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ViewModel : NotifyPropertyChanged
     {
+        #region Base variables
         private ObservableCollection<Estate> _estates;
         private Estate _selectedEstate;
         private Estate _currentEstate;
@@ -15,9 +22,11 @@ namespace real_estate_manager
         private LegalForm _form;
         private List<LegalForm> _legalforms;
         private string _address;
+        private BitmapImage _image;
         private bool _isEditing;
         private bool _isEditingCancelled;
         private bool _isAdding;
+        #endregion
 
         #region Residential variables
         private double _gardenSize;
@@ -64,11 +73,14 @@ namespace real_estate_manager
         private bool _isCom;
         #endregion
 
+        #region command variables
         public AsyncCommand AddEstate { get; private set; }
         public Command RemoveEstate { get; private set; }
         public AsyncCommand EditEstate { get; private set; }
         public Command FinishEditEstate { get; private set; }
         public Command CancelEdit { get; private set; }
+        public Command LoadImage { get; private set; }
+        #endregion
 
         #region Base Properties
         public ObservableCollection<Estate> Estates { get { return _estates; } set { if (_estates != value) { _estates = value; OnPropertyChanged(nameof(Estates)); } } }
@@ -79,6 +91,8 @@ namespace real_estate_manager
         public List<LegalForm> LegalForms { get { return _legalforms; } set { if (_legalforms != value) { _legalforms = value; OnPropertyChanged(nameof(LegalForms)); } } }
         public LegalForm SelectedLegalForm { get { return _form; } set { if (_form != value) { _form = value; OnPropertyChanged(nameof(SelectedLegalForm)); CheckRentalOrTenement(); } } }
         public string Address { get { return _address; } set { if (_address != value) { _address = value; OnPropertyChanged(nameof(Address)); } } }
+        public BitmapImage EstateImage { get { return _image; } set { if (_image != value) { _image = value; OnPropertyChanged(nameof(EstateImage)); } } }
+
         #endregion
 
         #region residential properties
@@ -90,7 +104,7 @@ namespace real_estate_manager
         public bool HasBalcony { get { return _hasBalcony; } set { if (_hasBalcony != value) { _hasBalcony = value; OnPropertyChanged(nameof(HasBalcony)); } } }
         public double SalesValue { get { return _salesValue; } set { if (_salesValue != value) { _salesValue = value; OnPropertyChanged(nameof(SalesValue)); } } }
         public double Rent { get { return _rent; } set { if (_rent != value) { _rent = value; OnPropertyChanged(nameof(Rent)); } } }
-        
+
         #endregion
 
         #region institutional properties
@@ -132,55 +146,66 @@ namespace real_estate_manager
         #endregion
 
         #region editing boolean properties
-        public bool IsEditing { get { return _isEditing; } set { if (_isEditing != value) { _isEditing = value; OnPropertyChanged(nameof(IsEditing)); } } }
-        public bool IsEditingCancelled { get { return _isEditingCancelled; } set { if (_isEditingCancelled != value) { _isEditingCancelled = value; OnPropertyChanged(nameof(IsEditingCancelled)); } } }
+        public bool IsEditing { get { return _isEditing; } set { if (_isEditing != value) { _isEditing = value; OnPropertyChanged(nameof(IsEditing)); LoadImage.RaiseCanExecuteChanged(); } } }
         public bool IsAdding { get { return _isAdding; } set { if (_isAdding != value) { _isAdding = value; OnPropertyChanged(nameof(IsAdding)); } } }
         #endregion
 
         public ViewModel()
         {
+            //set values for the paroperties bound to comboboxes with respecitve enums
             Types = EstateTypes.GetValues(typeof(EstateTypes)).Cast<EstateTypes>().ToList();
             LegalForms = LegalForm.GetValues(typeof(LegalForm)).Cast<LegalForm>().ToList();
             FactoryTypes = FactoryType.GetValues(typeof(FactoryType)).Cast<FactoryType>().ToList();
+            SchoolTypes = SchoolType.GetValues(typeof(SchoolType)).Cast<SchoolType>().ToList();
+            InstitutionTypes = InstitutionType.GetValues(typeof(InstitutionType)).Cast<InstitutionType>().ToList();
 
-            Types.Sort();
-            LegalForms.Sort();
+            Address=string.Empty;
+            EstateImage = null;
+            Estates = new ObservableCollection<Estate>(); //Create new observablecollection
+            IsEditing = false; //set editing to false
+            IsAdding = false; //set adding to false
 
-            SelectedType = Types[0];
-            SelectedLegalForm = LegalForms[0];
-            Estates = new ObservableCollection<Estate>();
-            IsEditing = false;
-            IsEditingCancelled = false;
-
-            Address = string.Empty;
-            HasBalcony = false;
-            NotCommercial();
+            NotCommercial(); //Setting all boolean values controlling the visibility of all controls for respective estate types to false
             NotInstitutional();
             NotResidential();
 
+            //Creating commands for all buttons and setting moethods to each one
             AddEstate = new AsyncCommand(AddNewEstate, CanAddEstate);
             RemoveEstate = new Command(RemoveCurrentEstate, CanRemoveEstate);
             EditEstate = new AsyncCommand(EditSelectedEstate, CanEditestate);
             FinishEditEstate = new Command(FinishEditing, CanFinishEditing);
             CancelEdit = new Command(CancelEditingState, CanCancel);
+            LoadImage = new Command(LoadEstateImage, CanLoadImage);
         }
 
-        private bool CanCancel()
-        {
-            return true;
-        }
+        /// <summary>
+        /// setting that the cancel command always is enabled
+        /// </summary>
+        private bool CanCancel() => true;
 
+        /// <summary>
+        /// method executed when pressing the cancel button
+        /// </summary>
         private void CancelEditingState()
         {
+            IsAdding = false; 
             IsEditing = false;
             ResetInput();
         }
 
+        /// <summary>
+        /// A method that checks if the user can add an estate or not
+        /// </summary>
         private bool CanAddEstate()
         {
+            if (IsEditing)
+                return false;
             return true;
         }
 
+        /// <summary>
+        /// Checks if the user can remove an estate
+        /// </summary>
         public bool CanRemoveEstate()
         {
             if (SelectedEstate == null)
@@ -188,6 +213,9 @@ namespace real_estate_manager
             return true;
         }
 
+        /// <summary>
+        /// Checks if the user can edit an estate or not
+        /// </summary>
         private bool CanEditestate()
         {
             if (CanRemoveEstate() && IsEditing == false)
@@ -197,22 +225,173 @@ namespace real_estate_manager
             return false;
         }
 
+        /// <summary>
+        /// Loops through all selectable estate types and checks if the user has put in all values.
+        /// If not, the command is disabled, else, the user can add or update the estate
+        /// </summary>
+        /// <returns></returns>
         private bool CanFinishEditing()
         {
-            return true;
+            if (Address.Length > 0 && SelectedLegalForm != null && SelectedType != null && EstateImage != null)
+            {
+                if (SelectedType == EstateTypes.Villa || SelectedType == EstateTypes.Townhouse)
+                {
+                    if (ResidentialArea > 0 && NumberOfRooms > 0 && GardenSize >= 0)
+                        return true;
+                    return false;
+                }
+
+                else if (SelectedType == EstateTypes.Apartment)
+                {
+
+                    if (SelectedLegalForm == LegalForm.Rental)
+                    {
+                        if (ResidentialArea > 0 && NumberOfRooms > 0 && FloorLevel >= 0 && Rent >= 0)
+                            return true;
+                        return false;
+                    }
+
+                    else if (SelectedLegalForm == LegalForm.Tenement)
+                    {
+                        if (ResidentialArea > 0 && NumberOfRooms > 0 && FloorLevel >= 0 && SalesValue >= 0)
+                            return true;
+                        return false;
+                    }
+
+                    else
+                    {
+                        if (ResidentialArea > 0 && NumberOfRooms > 0 && FloorLevel >= 0)
+                            return true;
+                        return false;
+                    }
+                }
+
+                else if (SelectedType == EstateTypes.Hotel)
+                {
+                    if (PropertySize > 0 && NumberOfHotelRooms > 0)
+                        return true;
+                    return false;
+
+                }
+
+                else if (SelectedType == EstateTypes.Shop)
+                {
+                    if (PropertySize > 0 && RetailArea > 0)
+                        return true;
+                    return false;
+                }
+
+                else if (SelectedType == EstateTypes.Warehouse)
+                {
+                    if (PropertySize > 0 && StorageArea > 0)
+                        return true;
+                    return false;
+                }
+
+                else if (SelectedType == EstateTypes.Factory)
+                {
+                    if (PropertySize > 0)
+                        return true;
+                    return false;
+                }
+
+                else if (SelectedType == EstateTypes.Hospital || SelectedType == EstateTypes.School)
+                {
+                    if (NumberOfStaff > 0)
+                        return true;
+                    return false;
+                }
+
+                else if (SelectedType == EstateTypes.University)
+                {
+                    if (NumberOfStaff > 0 && NumberOfFacs > 0)
+                        return true;
+                    return false;
+                }
+
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            else
+            {
+                return false;
+            }
         }
 
+        /// <summary>
+        /// Checks if user can add an image or not
+        /// </summary>
+        /// <returns></returns>
+        private bool CanLoadImage()
+        {
+            if (IsEditing == true)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// A method for loading an image for the estate while adding or editing
+        /// Uses an openfiledialog
+        /// </summary>
+        private void LoadEstateImage()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files (*.jpg, *.jpeg, *.png, *.bmp, *.gif, *.tiff, *.ico)|*.jpg;*.jpeg;*.png;*.bmp;*.gif;*.tiff;*.ico";
+            openFileDialog.Title = "Load Image";
+            openFileDialog.Multiselect = false;
+            bool result = (bool)openFileDialog.ShowDialog();
+
+            if (result)
+            {
+                EstateImage = CreateImage(openFileDialog.FileName);
+                OnPropertyChanged(nameof(CurrentEstate));
+            }
+
+            else
+            {
+                MessageBox.Show("Load failed");
+            }
+
+        }
+
+        /// <summary>
+        /// A method for adding new estates
+        /// </summary>
         private async Task AddNewEstate()
         {
             CurrentEstate = null;
+            IsAdding = true;
             await AddCurrentOrNewEstate();
         }
 
+        /// <summary>
+        /// a method for editing existing estates. 
+        /// </summary>
+        private async Task EditSelectedEstate()
+        {
+            IsAdding = false;
+            _currentEstate = SelectedEstate;
+            SetExistingInputValues();
+            OnPropertyChanged(nameof(CurrentEstate));
+            await AddCurrentOrNewEstate();
+        }
+
+        /// <summary>
+        /// A async method that while the user is in editing mode, checks which estate type is selected
+        /// and creates that estate type. It is called when both editing of adding a new estate
+        /// It also controls the visibility of the proper input control through booleans
+        /// The method is async as to not block the ui thread
+        /// </summary>
+        /// <returns></returns>
         private async Task AddCurrentOrNewEstate()
         {
             IsEditing = true;
             _tokenSource = new CancellationTokenSource();
-
+            AddEstate.RaiseCanExecuteChanged();
             while (IsEditing)
             {
                 if (_tokenSource.IsCancellationRequested)
@@ -251,6 +430,7 @@ namespace real_estate_manager
                         NotInstitutional();
 
                         _currentEstate = new Townhouse(ResidentialArea, NumberOfRooms, GardenSize, IsDetached);
+              
                     }
 
                     else if (SelectedType == EstateTypes.Apartment)
@@ -281,6 +461,7 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.Hotel)
                     {
+                        IsCommercial = true;
                         IsHotel = true;
                         IsShop = false;
                         IsWarehouse = false;
@@ -295,6 +476,7 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.Shop)
                     {
+                        IsCommercial = true;
                         IsHotel = false;
                         IsShop = true;
                         IsWarehouse = false;
@@ -308,6 +490,7 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.Warehouse)
                     {
+                        IsCommercial = true;
                         IsHotel = false;
                         IsShop = false;
                         IsWarehouse = true;
@@ -321,6 +504,7 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.Factory)
                     {
+                        IsCommercial = true;
                         IsHotel = false;
                         IsShop = false;
                         IsWarehouse = false;
@@ -334,9 +518,10 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.Hospital)
                     {
+                        IsInstitutional = true;
                         IsHospital = true;
                         IsSchool = false;
-                        IsUniversity= false;
+                        IsUniversity = false;
 
                         NotResidential();
                         NotCommercial();
@@ -346,6 +531,7 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.School)
                     {
+                        IsInstitutional = true;
                         IsHospital = false;
                         IsSchool = true;
                         IsUniversity = false;
@@ -358,6 +544,7 @@ namespace real_estate_manager
 
                     else if (SelectedType == EstateTypes.University)
                     {
+                        IsInstitutional = true;
                         IsHospital = false;
                         IsSchool = false;
                         IsUniversity = true;
@@ -368,37 +555,14 @@ namespace real_estate_manager
                         _currentEstate = new University(SelectedInstitutionType, NumberOfStaff, NumberOfFacs);
                     }
                 }
-
-
+                FinishEditEstate.RaiseCanExecuteChanged();
                 await Task.Delay(100, _tokenSource.Token);
             }
-
-            OnPropertyChanged(nameof(Estates));
         }
 
-        private void NotResidential()
-        {
-            IsResident = false;
-            IsApartment = false;
-            IsVilla = false;
-            IsTownHouse = false;
-        }
-
-        private void NotCommercial()
-        {
-            IsHotel = false;
-            IsShop = false;
-            IsWarehouse = false;
-            IsFactory = false;
-        }
-
-        private void NotInstitutional()
-        {
-            IsHospital = false;
-            IsUniversity = false;
-            IsSchool = false;
-        }
-
+        /// <summary>
+        /// A method that removes the selected estate from the collection
+        /// </summary>
         private void RemoveCurrentEstate()
         {
             if (SelectedEstate == null)
@@ -411,15 +575,12 @@ namespace real_estate_manager
             }
         }
 
-        private async Task EditSelectedEstate()
-        {
-            _currentEstate = SelectedEstate;
-            SetExistingInputValues();
-            OnPropertyChanged(nameof(CurrentEstate));
-
-            await AddCurrentOrNewEstate();
-        }
-
+        /// <summary>
+        /// A method for setting the base properties all estates have
+        /// If the user is adding a new estate, it is added to the collection
+        /// if not, the selected estate that is edited is set with all the values insted and
+        /// no new estate is added
+        /// </summary>
         private void FinishEditing()
         {
             NotCommercial();
@@ -428,12 +589,23 @@ namespace real_estate_manager
 
             if (_currentEstate != null)
             {
-                _currentEstate.Address = Address;
-                _currentEstate.LegalForm = SelectedLegalForm;
-                _currentEstate.EstateType = SelectedType;
-                _currentEstate.CreateId(Estates.ToList());  // Set the estate's ID
-                Estates.Add(_currentEstate);
-                OnPropertyChanged(nameof(Estates));  // Ensure the collection is updated in the UI
+                if (IsAdding)
+                {
+                    _currentEstate.Address = Address;
+                    _currentEstate.LegalForm = SelectedLegalForm;
+                    _currentEstate.EstateType = SelectedType;
+                    _currentEstate.EstateImage = EstateImage;
+                    _currentEstate.CreateId(Estates.ToList());  // Set the estate's ID
+                    Estates.Add(_currentEstate);
+                }
+                   
+                else
+                {
+                    SelectedEstate.Address=Address;
+                    SelectedEstate.LegalForm= SelectedLegalForm;
+                    SelectedEstate.EstateType= SelectedType;
+                    SelectedEstate.EstateImage= EstateImage;
+                }      
             }
 
             else
@@ -442,9 +614,11 @@ namespace real_estate_manager
             }
 
             ResetInput();
-
         }
 
+        /// <summary>
+        /// A method for checking if the apartment is a rental or tenement
+        /// </summary>
         private void CheckRentalOrTenement()
         {
 
@@ -468,11 +642,16 @@ namespace real_estate_manager
 
         }
 
+        /// <summary>
+        /// Method for setting all parameters bound to input
+        /// controls to values from the estate that is to be edited
+        /// </summary>
         private void SetExistingInputValues()
         {
             Address = SelectedEstate.Address;
             SelectedLegalForm = SelectedEstate.LegalForm;
             SelectedType = SelectedEstate.EstateType;
+            EstateImage = SelectedEstate.EstateImage;
 
             if (SelectedEstate is Residential residential)
             {
@@ -531,6 +710,7 @@ namespace real_estate_manager
 
             else if (SelectedEstate is Commercial commercial)
             {
+                PropertySize=commercial.PropertySize;
 
                 if (commercial is Factory factory)
                 {
@@ -558,10 +738,36 @@ namespace real_estate_manager
                 SelectedEstate = null;
             }
 
+            FinishEditEstate.RaiseCanExecuteChanged();
         }
 
+        /// <summary>
+        /// Method for creating a bitmap image fomr a filename
+        /// </summary>
+        public BitmapImage CreateImage(string filePath)
+        {
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri(filePath, UriKind.Absolute);
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.EndInit();
+            image.Freeze();
+            return image;
+        }
+
+        /// <summary>
+        /// Method for resetting all properties bound to input controls
+        /// </summary>
         private void ResetInput()
         {
+            IsEditing = false;
+            IsAdding = false;
+            AddEstate.RaiseCanExecuteChanged();
+            NotCommercial();
+            NotInstitutional();
+            NotResidential();
+
+            EstateImage = null;
             Address = string.Empty;
             HasBalcony = false;
             Rent = 0;
@@ -572,12 +778,40 @@ namespace real_estate_manager
             NumberOfRooms = 0;
             NumberOfFacs = 0;
             NumberOfHotelRooms = 0;
-            NumberOfStaff= 0;
+            NumberOfStaff = 0;
             PropertySize = 0;
             RetailArea = 0;
             StorageArea = 0;
             HasEmergencyDept = false;
-            
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void NotResidential()
+        {
+            IsResident = false;
+            IsApartment = false;
+            IsVilla = false;
+            IsTownHouse = false;
+            IsRentalApartment = false;
+            IsTenementApartment = false;
+        }
+        private void NotCommercial()
+        {
+            IsCommercial = false;
+            IsHotel = false;
+            IsShop = false;
+            IsWarehouse = false;
+            IsFactory = false;
+        }
+        private void NotInstitutional()
+        {
+            IsInstitutional = false;
+            IsHospital = false;
+            IsUniversity = false;
+            IsSchool = false;
         }
     }
 }

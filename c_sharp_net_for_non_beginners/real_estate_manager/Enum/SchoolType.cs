@@ -3,8 +3,8 @@
     public enum SchoolType
     {
         Preschool,
-        Elementary_school,
-        Middle_school,
-        High_school
+        Elementary,
+        Middle,
+        High
     }
 }

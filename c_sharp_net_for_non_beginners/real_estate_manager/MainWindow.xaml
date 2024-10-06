@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:real_estate_manager" 
         d:DataContext="{d:DesignInstance Type=local:ViewModel}"
         mc:Ignorable="d"
-        Title="Real Estate Management System" Height="800" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="Real Estate Management System" Height="800" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize">
 
     <Window.Resources>
         <local:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
@@ -27,7 +27,7 @@
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
             <Button x:Name="Add" Content="Add Estate" MinWidth="80" Height="25" Margin="5,0,0,0" Command="{Binding AddEstate}"/>
             <Button x:Name="Remove" Content="Remove Estate" MinWidth="100" Height="25" Margin="10,0,0,0" Command="{Binding RemoveEstate}"/>
-            <Button x:Name="Edit" Content="Edit Estate" MinWidth="100" Height="25" Margin="10,0,0,0" Command="{Binding EditEstate}"/>
+            <Button x:Name="Edit" Content="Edit/Show Estate" MinWidth="100" Height="25" Margin="10,0,0,0" Command="{Binding EditEstate}"/>
         </StackPanel>
         <DataGrid Grid.Row="2" Width="Auto" Height="Auto" CanUserReorderColumns="False" CanUserResizeRows="False" IsReadOnly="True" ItemsSource="{Binding Estates, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10" SelectedItem="{Binding SelectedEstate, Mode=TwoWay}" SelectionChanged="DataGrid_SelectionChanged">
         </DataGrid>
@@ -47,17 +47,12 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <!--#region Estate -->
                 <TextBlock Text="Address" Grid.Column="0" Grid.Row="1" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="AddressInput" Grid.Column="1" Grid.Row="1" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding Address}" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="AddressInput" Grid.Column="1" Grid.Row="1" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
 
                 <TextBlock Text="Type" Grid.Column="0" Grid.Row="0" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
                 <ComboBox x:Name="EstateType" Grid.Column="1" Grid.Row="0" MinWidth="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType, Mode=TwoWay}" Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
@@ -68,25 +63,25 @@
 
                 <!--#region Residential -->
                 <TextBlock Text="Residential Area" Grid.Column="0" Grid.Row="3" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="ResAreaInput" Grid.Column="1" Grid.Row="3" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding ResidentialArea, Mode=TwoWay}" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="ResAreaInput" Grid.Column="1" Grid.Row="3" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding ResidentialArea, Mode=TwoWay}" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}" PreviewTextInput="EnableOnlyDoubles"/>
 
                 <TextBlock Text="Number of rooms" Grid.Column="0" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="NoOfRooms" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding NumberOfRooms, Mode=TwoWay}" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="NoOfRooms" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding NumberOfRooms, Mode=TwoWay}" Visibility="{Binding IsResident, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyIntegers"/>
 
                 <TextBlock Text="Floor Level" Grid.Column="0" Grid.Row="5" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="FloorLevelInput" Grid.Column="1" Grid.Row="5" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding FloorLevel, Mode=TwoWay}" Visibility="{Binding IsApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="FloorLevelInput" Grid.Column="1" Grid.Row="5" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding FloorLevel, Mode=TwoWay}" Visibility="{Binding IsApartment, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyIntegers"/>
 
                 <TextBlock Text="Balcony" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Margin="2" Visibility="{Binding IsApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
                 <CheckBox x:Name="BalconyInput" Width="Auto" Height="20" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="6" IsChecked="{Binding HasBalcony, Mode=TwoWay}" Visibility="{Binding IsApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
 
                 <TextBlock Text="Sales value" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" Margin="2" Visibility="{Binding IsTenementApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="TenementInput" Width="Auto" Height="20" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="7" Text="{Binding SalesValue}" Visibility="{Binding IsTenementApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="TenementInput" Width="Auto" Height="20" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="7" Text="{Binding SalesValue, Mode=TwoWay}" Visibility="{Binding IsTenementApartment, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyDoubles"/>
 
                 <TextBlock Text="Rent" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" Margin="2" Visibility="{Binding IsRentalApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="RentalInput" Width="Auto" Height="20" VerticalAlignment="Center" Grid.Column="1" Grid.Row="7" Text="{Binding Rent}" Visibility="{Binding IsRentalApartment, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="RentalInput" Width="Auto" Height="20" VerticalAlignment="Center" Grid.Column="1" Grid.Row="7" Text="{Binding Rent, Mode=TwoWay}" Visibility="{Binding IsRentalApartment, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyDoubles"/>
 
                 <TextBlock Text="Garden Size" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="5" Margin="2" Visibility="{Binding IsVilla, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="GardenInput" Width="Auto" Height="20" VerticalAlignment="center" Grid.Column="1" Grid.Row="5" Text="{Binding GardenSize}" Visibility="{Binding IsVilla, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="GardenInput" Width="Auto" Height="20" VerticalAlignment="center" Grid.Column="1" Grid.Row="5" Text="{Binding GardenSize, Mode=TwoWay}" Visibility="{Binding IsVilla, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyDoubles"/>
 
                 <TextBlock Text="Is Detached" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Margin="2" Visibility="{Binding IsTownHouse, Converter={StaticResource BoolVisibilityConverter}}"/>
                 <CheckBox x:Name="TownHouseInput" Width="Auto" Height="20" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="6" IsChecked="{Binding IsDetached, Mode=TwoWay}" Visibility="{Binding IsTownHouse, Converter={StaticResource BoolVisibilityConverter}}"/>
@@ -94,37 +89,44 @@
 
                 <!--#region Commercial -->
                 <TextBlock Text="Property Area" Grid.Column="0" Grid.Row="3" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsCommercial, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="PropAreaInput" Grid.Column="1" Grid.Row="3" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding PropertySize, Mode=TwoWay}" Visibility="{Binding IsCommercial, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="PropAreaInput" Grid.Column="1" Grid.Row="3" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center"  Text="{Binding PropertySize, Mode=TwoWay}" Visibility="{Binding IsCommercial, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyDoubles"/>
 
-                <TextBlock Text="Factory Type" Grid.Column="0" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" Visibility="{Binding IsFactory, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <ComboBox x:Name="FactoryType" Grid.Column="1" Grid.Row="4" MinWidth="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" ItemsSource="{Binding FactoryTypes}" SelectedItem="{Binding SelectedFactoryType, Mode=TwoWay}" Visibility="{Binding IsFactory, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBlock Text="Factory Type" Grid.Column="0" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsFactory, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <ComboBox x:Name="FactoryType" Grid.Column="1" Grid.Row="4" MinWidth="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" ItemsSource="{Binding FactoryTypes, Mode=TwoWay}" SelectedItem="{Binding SelectedFactoryType, Mode=TwoWay}" Visibility="{Binding IsFactory, Converter={StaticResource BoolVisibilityConverter}}"/>
 
                 <TextBlock Text="Number of rooms" Grid.Column="0" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsHotel, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="HotelRoomInput" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding NumberOfHotelRooms, Mode=TwoWay}" Visibility="{Binding IsHotel, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="HotelRoomInput" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding NumberOfHotelRooms, Mode=TwoWay}" Visibility="{Binding IsHotel, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyIntegers"/>
 
                 <TextBlock Text="Retail area" Grid.Column="0" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsShop, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="RetailAreaInput" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding RetailArea, Mode=TwoWay}" Visibility="{Binding IsShop, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="RetailAreaInput" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding RetailArea, Mode=TwoWay}" Visibility="{Binding IsShop, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyDoubles"/>
 
                 <TextBlock Text="Storage area" Grid.Column="0" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsWarehouse, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="StorageAreaInput" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding StorageArea, Mode=TwoWay}" Visibility="{Binding IsWarehouse, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="StorageAreaInput" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding StorageArea, Mode=TwoWay}" Visibility="{Binding IsWarehouse, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyDoubles"/>
                 <!--#endregion-->
 
                 <!--#region Institutional -->
                 <TextBlock Text="Public/Private" Grid.Column="0" Grid.Row="3" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsInstitutional, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <ComboBox x:Name="InstitutionType" Grid.Column="1" Grid.Row="3" MinWidth="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" ItemsSource="{Binding InstitutionTypes}" SelectedItem="{Binding SelectedInstitutionType, Mode=TwoWay}" Visibility="{Binding IsInstitutional, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <ComboBox x:Name="InstitutionType" Grid.Column="1" Grid.Row="3" MinWidth="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" ItemsSource="{Binding InstitutionTypes, Mode=TwoWay}" SelectedItem="{Binding SelectedInstitutionType, Mode=TwoWay}" Visibility="{Binding IsInstitutional, Converter={StaticResource BoolVisibilityConverter}}"/>
 
                 <TextBlock Text="Number of Staff" Grid.Column="0" Grid.Row="4" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsInstitutional, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="NumberofStaffInput" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding NumberOfStaff, Mode=TwoWay}" Visibility="{Binding IsInstitutional, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="NumberofStaffInput" Grid.Column="1" Grid.Row="4" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding NumberOfStaff, Mode=TwoWay}" Visibility="{Binding IsInstitutional, Converter={StaticResource BoolVisibilityConverter}}" PreviewTextInput="EnableOnlyIntegers"/>
 
                 <TextBlock Text="Emergency Department" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="5" Margin="2" Visibility="{Binding IsHospital, Converter={StaticResource BoolVisibilityConverter}}"/>
                 <CheckBox x:Name="EmDeptInput" Width="Auto" Height="20" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="5" IsChecked="{Binding HasEmergencyDept, Mode=TwoWay}" Visibility="{Binding IsHospital, Converter={StaticResource BoolVisibilityConverter}}"/>
 
                 <TextBlock Text="Type" Grid.Column="0" Grid.Row="5" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsSchool, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <ComboBox x:Name="SchoolType" Grid.Column="1" Grid.Row="5" MinWidth="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" ItemsSource="{Binding SchoolTypes}" SelectedItem="{Binding SelectedSchoolType, Mode=TwoWay}" Visibility="{Binding IsSchool, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <ComboBox x:Name="SchoolType" Grid.Column="1" Grid.Row="5" MinWidth="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" ItemsSource="{Binding SchoolTypes, Mode=TwoWay}" SelectedItem="{Binding SelectedSchoolType, Mode=TwoWay}" Visibility="{Binding IsSchool, Converter={StaticResource BoolVisibilityConverter}}"/>
 
                 <TextBlock Text="Number of Faculties" Grid.Column="0" Grid.Row="5" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Visibility="{Binding IsUniversity, Converter={StaticResource BoolVisibilityConverter}}"/>
-                <TextBox x:Name="NumberofFacInput" Grid.Column="1" Grid.Row="5" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding NumberOfFacs, Mode=TwoWay}" Visibility="{Binding IsUniversity, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <TextBox x:Name="NumberofFacInput" Grid.Column="1" Grid.Row="5" Width="Auto" Height="20"  Margin="0,0,10,0" VerticalAlignment="Center" Text="{Binding NumberOfFacs, Mode=TwoWay}" Visibility="{Binding IsUniversity, Converter={StaticResource BoolVisibilityConverter}}"  PreviewTextInput="EnableOnlyIntegers"/>
                 <!--#endregion-->
+
+                <!--#region Image -->
+                <TextBlock Text="Image" Grid.Column="0" Grid.Row="8" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"  Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <Button x:Name="LoadImage" Content="Load..." Grid.Column="1" Grid.Row="8" Width="100" Height="20" HorizontalAlignment="Left" Command="{Binding LoadImage}"  Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <Image x:Name="LoadedImage" Grid.ColumnSpan="2" Grid.Row="9" Width="Auto" Height="300" Stretch="Uniform" Source="{Binding EstateImage, UpdateSourceTrigger=PropertyChanged}"  Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibilityConverter}}"/>
+                <!--#endregion-->
+                
             </Grid>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Margin="10" Height="50" VerticalAlignment="Bottom">
