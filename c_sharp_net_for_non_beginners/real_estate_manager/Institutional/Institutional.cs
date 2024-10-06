@@ -1,9 +1,20 @@
 ﻿namespace real_estate_manager
 {
-    public abstract class Institutional(InstitutionType institutionType, double capacity, double numberOfStaff) : Estate
+    /// <summary>
+    /// Abstract class for institutional estates
+    /// </summary>
+    public abstract class Institutional : Estate
     {
-        protected InstitutionType _instType = institutionType;
-        protected double _capacity = capacity;
-        protected double _numberOfStaff = numberOfStaff;
+        private InstitutionType _instType;
+        private int _numberOfStaff;
+
+        public InstitutionType InstType { get => _instType; set => _instType = value; }
+        public int NumberOfStaff { get => _numberOfStaff; set => _numberOfStaff = value; }
+
+        public Institutional(InstitutionType institutionType, int numberOfStaff)
+        {
+            _instType = institutionType;
+            _numberOfStaff = numberOfStaff;
+        }
     }
 }

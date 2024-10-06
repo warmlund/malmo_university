@@ -5,8 +5,17 @@ using System.Text;
 
 namespace real_estate_manager
 {
-    public abstract class Commercial(double propertySize) : Estate
+    /// <summary>
+    /// Abstract class for commercial estates
+    /// </summary>
+    public abstract class Commercial : Estate
     {
-        protected double _propertySize = propertySize;
+        private double propertySize;
+        public double PropertySize { get => propertySize; set => propertySize = value; }
+
+        public Commercial(double propertySize)
+        {
+            this.propertySize = propertySize;
+        }       
     }
 }

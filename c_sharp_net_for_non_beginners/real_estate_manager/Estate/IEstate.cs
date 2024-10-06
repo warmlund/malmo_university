@@ -1,15 +1,20 @@
-﻿using real_estate_manager.HelperClasses;
-using System.Windows.Controls;
+﻿using real_estate_manager.Enum;
+using real_estate_manager.HelperClasses;
+using System.Windows.Media.Imaging;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// Interface for estate objects
+    /// </summary>
     public interface IEstate
     {
         int Id { get; set; }
-        Address Address { get; set; }
+        EstateTypes EstateType { get; set; }
+        Address EstateAddress { get; set; }
         LegalForm LegalForm { get; set; }
-        Image EstateImage { get; set; }
+        BitmapImage EstateImage { get; set; }
 
-        void UpdateEstateDetails(int id, Address address, LegalForm legalForm, Image estateImage);
+        void CreateId(List<Estate> estates);
     }
 }

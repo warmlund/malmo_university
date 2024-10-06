@@ -5,13 +5,17 @@ using System.Text;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// class for rental apartments, inherits from apartment class
+    /// </summary>
     public class Rental : Apartment
     {
-        private double _rent;
+        public double Rent { get; set; }
 
         public Rental(double residentialArea, int numberOfRooms, int floorLevel, bool hasBalcony,double rent): base(residentialArea, numberOfRooms, floorLevel, hasBalcony)
         {
-            _rent = rent;
+            Rent = rent;
         }
+
     }
 }

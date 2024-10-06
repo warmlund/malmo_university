@@ -1,13 +1,5 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace real_estate_manager
 {
@@ -16,9 +8,64 @@ namespace real_estate_manager
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ViewModel _viewModel;
         public MainWindow()
         {
-            InitializeComponent();
+            _viewModel = new ViewModel(); //create instance of viewmodel
+            DataContext = _viewModel; //set datacontext to viewmodel
+            InitializeComponent(); 
+        }
+
+        /// <summary>
+        /// An eventhandler for checking if the selection in the datagridview has changed
+        /// </summary>
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) 
+        {
+            var dataGrid = sender as DataGrid;
+
+            var selectedEstate = dataGrid.SelectedItem as Estate;
+
+            if (selectedEstate != null)
+            {
+                _viewModel.SelectedEstate = selectedEstate;
+                _viewModel.EditEstate.RaiseCanExecuteChanged();
+                _viewModel.RemoveEstate.RaiseCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
+        /// An eventhandler that only accepts whole numbers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EnableOnlyIntegers(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            foreach (var ch in e.Text)
+            {
+                if (!char.IsDigit(ch))
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// An eventhandler that only accepts whole or decimal values
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EnableOnlyDoubles(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            foreach (var ch in e.Text)
+            {
+                if (!char.IsDigit(ch) && ch != '.')
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
         }
     }
 }
