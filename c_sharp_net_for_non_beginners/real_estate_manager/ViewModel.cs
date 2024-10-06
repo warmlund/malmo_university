@@ -7,9 +7,6 @@ using System.Windows.Media.Imaging;
 
 namespace real_estate_manager
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class ViewModel : NotifyPropertyChanged
     {
         #region Base variables
@@ -21,7 +18,11 @@ namespace real_estate_manager
         private EstateTypes _selectedType;
         private LegalForm _form;
         private List<LegalForm> _legalforms;
-        private string _address;
+        private string _street;
+        private string _city;
+        private Country _country;
+        private List<Country> _countries;
+        private int _zipcode;
         private BitmapImage _image;
         private bool _isEditing;
         private bool _isEditingCancelled;
@@ -90,8 +91,12 @@ namespace real_estate_manager
         public EstateTypes SelectedType { get { return _selectedType; } set { if (_selectedType != value) { _selectedType = value; OnPropertyChanged(nameof(SelectedType)); } } }
         public List<LegalForm> LegalForms { get { return _legalforms; } set { if (_legalforms != value) { _legalforms = value; OnPropertyChanged(nameof(LegalForms)); } } }
         public LegalForm SelectedLegalForm { get { return _form; } set { if (_form != value) { _form = value; OnPropertyChanged(nameof(SelectedLegalForm)); CheckRentalOrTenement(); } } }
-        public string Address { get { return _address; } set { if (_address != value) { _address = value; OnPropertyChanged(nameof(Address)); } } }
         public BitmapImage EstateImage { get { return _image; } set { if (_image != value) { _image = value; OnPropertyChanged(nameof(EstateImage)); } } }
+        public string City { get { return _city; } set { if (_city != value) { _city = value; OnPropertyChanged(nameof(City)); } } }
+        public string Street { get { return _street; } set { if (_street != value) { _street = value; OnPropertyChanged(nameof(Street)); } } }
+        public int ZipCode { get { return _zipcode; } set { if (_zipcode != value) { _zipcode = value; OnPropertyChanged(nameof(ZipCode)); } } }
+        public Country SelectedCountry { get { return _country; } set { if (_country != value) { _country = value; OnPropertyChanged(nameof(SelectedCountry)); } } }
+        public List<Country> Countries { get { return _countries; } set { if (_countries != value) { _countries = value; OnPropertyChanged(nameof(Countries)); } } }
 
         #endregion
 
@@ -158,10 +163,13 @@ namespace real_estate_manager
             FactoryTypes = FactoryType.GetValues(typeof(FactoryType)).Cast<FactoryType>().ToList();
             SchoolTypes = SchoolType.GetValues(typeof(SchoolType)).Cast<SchoolType>().ToList();
             InstitutionTypes = InstitutionType.GetValues(typeof(InstitutionType)).Cast<InstitutionType>().ToList();
+            Countries = Country.GetValues(typeof(Country)).Cast<Country>().ToList();
 
-            Address=string.Empty;
-            EstateImage = null;
+            Street = string.Empty; //set street value to emtpy
+            City = string.Empty; //set city value to empty
+            EstateImage = null; //set image to null
             Estates = new ObservableCollection<Estate>(); //Create new observablecollection
+            Estates.Clear();
             IsEditing = false; //set editing to false
             IsAdding = false; //set adding to false
 
@@ -188,7 +196,7 @@ namespace real_estate_manager
         /// </summary>
         private void CancelEditingState()
         {
-            IsAdding = false; 
+            IsAdding = false;
             IsEditing = false;
             ResetInput();
         }
@@ -208,7 +216,7 @@ namespace real_estate_manager
         /// </summary>
         public bool CanRemoveEstate()
         {
-            if (SelectedEstate == null)
+            if (SelectedEstate == null && IsEditing == true && Estates.Count<=0)
                 return false;
             return true;
         }
@@ -218,11 +226,10 @@ namespace real_estate_manager
         /// </summary>
         private bool CanEditestate()
         {
-            if (CanRemoveEstate() && IsEditing == false)
-            {
-                return true;
-            }
-            return false;
+            if (SelectedEstate == null && IsEditing == true)
+                return false;
+
+            return true;
         }
 
         /// <summary>
@@ -232,7 +239,7 @@ namespace real_estate_manager
         /// <returns></returns>
         private bool CanFinishEditing()
         {
-            if (Address.Length > 0 && SelectedLegalForm != null && SelectedType != null && EstateImage != null)
+            if (IsAddressFilled() && SelectedLegalForm != null && SelectedType != null && EstateImage != null)
             {
                 if (SelectedType == EstateTypes.Villa || SelectedType == EstateTypes.Townhouse)
                 {
@@ -392,6 +399,9 @@ namespace real_estate_manager
             IsEditing = true;
             _tokenSource = new CancellationTokenSource();
             AddEstate.RaiseCanExecuteChanged();
+            RemoveEstate.RaiseCanExecuteChanged();
+            EditEstate.RaiseCanExecuteChanged();
+
             while (IsEditing)
             {
                 if (_tokenSource.IsCancellationRequested)
@@ -430,7 +440,7 @@ namespace real_estate_manager
                         NotInstitutional();
 
                         _currentEstate = new Townhouse(ResidentialArea, NumberOfRooms, GardenSize, IsDetached);
-              
+
                     }
 
                     else if (SelectedType == EstateTypes.Apartment)
@@ -589,23 +599,24 @@ namespace real_estate_manager
 
             if (_currentEstate != null)
             {
+                var estateAddress = new Address(Street, ZipCode, City, SelectedCountry);
+                _currentEstate.EstateAddress = estateAddress;
+                _currentEstate.LegalForm = SelectedLegalForm;
+                _currentEstate.EstateType = SelectedType;
+                _currentEstate.EstateImage = EstateImage;
+                _currentEstate.CreateId(Estates.ToList());  // Set the estate's ID
+
                 if (IsAdding)
                 {
-                    _currentEstate.Address = Address;
-                    _currentEstate.LegalForm = SelectedLegalForm;
-                    _currentEstate.EstateType = SelectedType;
-                    _currentEstate.EstateImage = EstateImage;
-                    _currentEstate.CreateId(Estates.ToList());  // Set the estate's ID
                     Estates.Add(_currentEstate);
                 }
-                   
+
                 else
                 {
-                    SelectedEstate.Address=Address;
-                    SelectedEstate.LegalForm= SelectedLegalForm;
-                    SelectedEstate.EstateType= SelectedType;
-                    SelectedEstate.EstateImage= EstateImage;
-                }      
+                    int selectedItemndex=Estates.IndexOf(SelectedEstate);
+                    Estates[selectedItemndex] =_currentEstate;
+                    OnPropertyChanged(nameof(SelectedEstate));
+                }
             }
 
             else
@@ -613,6 +624,7 @@ namespace real_estate_manager
                 _currentEstate = null;
             }
 
+            OnPropertyChanged(nameof(Estates));
             ResetInput();
         }
 
@@ -648,7 +660,10 @@ namespace real_estate_manager
         /// </summary>
         private void SetExistingInputValues()
         {
-            Address = SelectedEstate.Address;
+            City = SelectedEstate.EstateAddress.City;
+            Street = SelectedEstate.EstateAddress.Street;
+            ZipCode = SelectedEstate.EstateAddress.Zipcode;
+
             SelectedLegalForm = SelectedEstate.LegalForm;
             SelectedType = SelectedEstate.EstateType;
             EstateImage = SelectedEstate.EstateImage;
@@ -710,7 +725,7 @@ namespace real_estate_manager
 
             else if (SelectedEstate is Commercial commercial)
             {
-                PropertySize=commercial.PropertySize;
+                PropertySize = commercial.PropertySize;
 
                 if (commercial is Factory factory)
                 {
@@ -763,12 +778,16 @@ namespace real_estate_manager
             IsEditing = false;
             IsAdding = false;
             AddEstate.RaiseCanExecuteChanged();
+            RemoveEstate.RaiseCanExecuteChanged();
+            EditEstate.RaiseCanExecuteChanged();
             NotCommercial();
             NotInstitutional();
             NotResidential();
 
             EstateImage = null;
-            Address = string.Empty;
+            Street = string.Empty;
+            City = string.Empty;
+            ZipCode = 0;
             HasBalcony = false;
             Rent = 0;
             SalesValue = 0;
@@ -783,7 +802,6 @@ namespace real_estate_manager
             RetailArea = 0;
             StorageArea = 0;
             HasEmergencyDept = false;
-
         }
 
         /// <summary>
@@ -812,6 +830,19 @@ namespace real_estate_manager
             IsHospital = false;
             IsUniversity = false;
             IsSchool = false;
+        }
+
+        /// <summary>
+        ///A method checking if all input for the address has been filled in by the user
+        /// </summary>
+        /// <returns>false if not, true if all is filled in</returns>
+        private bool IsAddressFilled()
+        {
+            if (Street.Length > 0 && City.Length > 0 && SelectedCountry != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

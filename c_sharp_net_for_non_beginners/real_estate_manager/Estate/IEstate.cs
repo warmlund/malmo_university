@@ -4,11 +4,14 @@ using System.Windows.Media.Imaging;
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// Interface for estate objects
+    /// </summary>
     public interface IEstate
     {
         int Id { get; set; }
         EstateTypes EstateType { get; set; }
-        string Address { get; set; }
+        Address EstateAddress { get; set; }
         LegalForm LegalForm { get; set; }
         BitmapImage EstateImage { get; set; }
 

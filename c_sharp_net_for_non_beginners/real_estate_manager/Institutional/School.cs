@@ -2,6 +2,10 @@
 
 namespace real_estate_manager
 {
+    /// <summary>
+    /// School estate class inheriting from the commercial abstract class
+    /// </summary>
+    /// 
     public class School : Institutional
     {
         private SchoolType _type;

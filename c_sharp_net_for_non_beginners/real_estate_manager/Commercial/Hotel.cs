@@ -1,5 +1,9 @@
 ﻿namespace real_estate_manager
 {
+    /// <summary>
+    /// Hotel estate class inheriting from the commercial abstract class
+    /// </summary>
+    /// 
     public class Hotel : Commercial
     {
         private int _numberOfRooms;

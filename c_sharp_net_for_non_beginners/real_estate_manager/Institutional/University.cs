@@ -1,5 +1,9 @@
 ﻿namespace real_estate_manager
 {
+    /// <summary>
+    /// Unoversity estate class inheriting from the commercial abstract class
+    /// </summary>
+    /// 
     public class University : Institutional
     {
         private int _numberOfFalculties;

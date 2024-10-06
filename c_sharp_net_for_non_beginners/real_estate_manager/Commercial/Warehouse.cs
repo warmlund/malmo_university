@@ -1,5 +1,8 @@
 ﻿namespace real_estate_manager
 {
+    /// <summary>
+    /// Warehouse estate class inheriting from the commercial abstract class
+    /// </summary>
     public class Warehouse : Commercial
     {
         private double _storageArea;
