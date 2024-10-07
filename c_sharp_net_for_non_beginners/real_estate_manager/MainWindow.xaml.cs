@@ -24,12 +24,19 @@ namespace real_estate_manager
             var dataGrid = sender as DataGrid;
 
             var selectedEstate = dataGrid.SelectedItem as Estate;
+            int selectedIndex = dataGrid.SelectedIndex;
+
+            if(selectedIndex != -1)
+            {
+                _viewModel.SelectedIndex = selectedIndex;
+            }
 
             if (selectedEstate != null)
             {
                 _viewModel.SelectedEstate = selectedEstate;
                 _viewModel.EditEstate.RaiseCanExecuteChanged();
                 _viewModel.RemoveEstate.RaiseCanExecuteChanged();
+                _viewModel.ReplaceEstate.RaiseCanExecuteChanged();
             }
         }
 
