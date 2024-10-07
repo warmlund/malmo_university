@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using real_estate_manager.Enum;
 using real_estate_manager.HelperClasses;
+using real_estate_manager.ListManager;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -11,6 +12,7 @@ namespace real_estate_manager
     {
         #region Base variables
         private ObservableCollection<Estate> _estates;
+        private EstateManager _estateManager;
         private Estate _selectedEstate;
         private Estate _currentEstate;
         private CancellationTokenSource _tokenSource;
@@ -23,6 +25,7 @@ namespace real_estate_manager
         private Country _country;
         private List<Country> _countries;
         private int _zipcode;
+        private int _selectedIndex;
         private BitmapImage _image;
         private bool _isEditing;
         private bool _isEditingCancelled;
@@ -77,6 +80,7 @@ namespace real_estate_manager
         #region command variables
         public AsyncCommand AddEstate { get; private set; }
         public Command RemoveEstate { get; private set; }
+        public AsyncCommand ReplaceEstate { get; private set; }        
         public AsyncCommand EditEstate { get; private set; }
         public Command FinishEditEstate { get; private set; }
         public Command CancelEdit { get; private set; }
@@ -85,7 +89,9 @@ namespace real_estate_manager
 
         #region Base Properties
         public ObservableCollection<Estate> Estates { get { return _estates; } set { if (_estates != value) { _estates = value; OnPropertyChanged(nameof(Estates)); } } }
+        public EstateManager EstateCollection { get { return _estateManager; } set { if (_estateManager != value) { _estateManager = value; OnPropertyChanged(nameof(EstateCollection));  } } }
         public Estate SelectedEstate { get { return _selectedEstate; } set { if (_selectedEstate != value) { _selectedEstate = value; OnPropertyChanged(nameof(SelectedEstate)); } } }
+        public int SelectedIndex { get { return _selectedIndex; } set { if (_selectedIndex != value) { _selectedIndex = value; OnPropertyChanged(nameof(SelectedIndex)); } } }
         public Estate CurrentEstate { get { return _currentEstate; } set { if (_currentEstate != value) { _currentEstate = value; OnPropertyChanged(nameof(CurrentEstate)); } } }
         public List<EstateTypes> Types { get { return _types; } set { if (_types != value) { _types = value; OnPropertyChanged(nameof(Types)); } } }
         public EstateTypes SelectedType { get { return _selectedType; } set { if (_selectedType != value) { _selectedType = value; OnPropertyChanged(nameof(SelectedType)); } } }
@@ -168,8 +174,6 @@ namespace real_estate_manager
             Street = string.Empty; //set street value to emtpy
             City = string.Empty; //set city value to empty
             EstateImage = null; //set image to null
-            Estates = new ObservableCollection<Estate>(); //Create new observablecollection
-            Estates.Clear();
             IsEditing = false; //set editing to false
             IsAdding = false; //set adding to false
 
@@ -179,11 +183,17 @@ namespace real_estate_manager
 
             //Creating commands for all buttons and setting moethods to each one
             AddEstate = new AsyncCommand(AddNewEstate, CanAddEstate);
-            RemoveEstate = new Command(RemoveCurrentEstate, CanRemoveEstate);
-            EditEstate = new AsyncCommand(EditSelectedEstate, CanEditestate);
+            RemoveEstate = new Command(RemoveCurrentEstate, CanRemoveOrEditEstate);
+            EditEstate = new AsyncCommand(EditSelectedEstate, CanRemoveOrEditEstate);
             FinishEditEstate = new Command(FinishEditing, CanFinishEditing);
             CancelEdit = new Command(CancelEditingState, CanCancel);
             LoadImage = new Command(LoadEstateImage, CanLoadImage);
+            ReplaceEstate = new AsyncCommand(ReplaceSelectedEstate, CanRemoveOrEditEstate);
+
+            Estates = new ObservableCollection<Estate>(); //Create new observablecollection
+            _estateManager = new EstateManager();
+
+
         }
 
         /// <summary>
@@ -198,7 +208,7 @@ namespace real_estate_manager
         {
             IsAdding = false;
             IsEditing = false;
-            ResetInput();
+            Reset();
         }
 
         /// <summary>
@@ -212,25 +222,15 @@ namespace real_estate_manager
         }
 
         /// <summary>
-        /// Checks if the user can remove an estate
+        /// Checks if the user can remove or edit an estate
         /// </summary>
-        public bool CanRemoveEstate()
+        public bool CanRemoveOrEditEstate()
         {
-            if (SelectedEstate == null && IsEditing == true && Estates.Count<=0)
-                return false;
-            return true;
+            if (SelectedEstate != null && IsEditing != true && Estates.Count>0)
+                return true;
+            return false;
         }
 
-        /// <summary>
-        /// Checks if the user can edit an estate or not
-        /// </summary>
-        private bool CanEditestate()
-        {
-            if (SelectedEstate == null && IsEditing == true)
-                return false;
-
-            return true;
-        }
 
         /// <summary>
         /// Loops through all selectable estate types and checks if the user has put in all values.
@@ -370,7 +370,6 @@ namespace real_estate_manager
         /// </summary>
         private async Task AddNewEstate()
         {
-            CurrentEstate = null;
             IsAdding = true;
             await AddCurrentOrNewEstate();
         }
@@ -383,6 +382,17 @@ namespace real_estate_manager
             IsAdding = false;
             _currentEstate = SelectedEstate;
             SetExistingInputValues();
+            OnPropertyChanged(nameof(CurrentEstate));
+            await AddCurrentOrNewEstate();
+        }
+
+        /// <summary>
+        /// a method for replacing the selected estate with a new estate
+        /// </summary>
+        private async Task ReplaceSelectedEstate()
+        {
+            IsAdding= false;
+            SelectedEstate = _currentEstate;
             OnPropertyChanged(nameof(CurrentEstate));
             await AddCurrentOrNewEstate();
         }
@@ -579,9 +589,9 @@ namespace real_estate_manager
                 return;
             else
             {
-                _estates.Remove(SelectedEstate);
+                _estateManager.RemoveAt(SelectedIndex);
                 OnPropertyChanged(nameof(SelectedEstate));
-                OnPropertyChanged(nameof(Estates));
+                UpdateObservableCollection();
             }
         }
 
@@ -604,17 +614,16 @@ namespace real_estate_manager
                 _currentEstate.LegalForm = SelectedLegalForm;
                 _currentEstate.EstateType = SelectedType;
                 _currentEstate.EstateImage = EstateImage;
-                _currentEstate.CreateId(Estates.ToList());  // Set the estate's ID
+                _currentEstate.CreateId(EstateCollection);  // Set the estate's ID
 
                 if (IsAdding)
                 {
-                    Estates.Add(_currentEstate);
+                    _estateManager.Add(_currentEstate);
                 }
 
                 else
                 {
-                    int selectedItemndex=Estates.IndexOf(SelectedEstate);
-                    Estates[selectedItemndex] =_currentEstate;
+                    _estateManager.ReplaceAt(_currentEstate, SelectedIndex);
                     OnPropertyChanged(nameof(SelectedEstate));
                 }
             }
@@ -623,9 +632,9 @@ namespace real_estate_manager
             {
                 _currentEstate = null;
             }
-
-            OnPropertyChanged(nameof(Estates));
-            ResetInput();
+            UpdateObservableCollection();
+            OnPropertyChanged(nameof(EstateCollection));
+            Reset();
         }
 
         /// <summary>
@@ -771,19 +780,40 @@ namespace real_estate_manager
         }
 
         /// <summary>
-        /// Method for resetting all properties bound to input controls
+        /// Update bound observablecollection with the estates in the estatemanager
         /// </summary>
-        private void ResetInput()
+        private void UpdateObservableCollection()
+        {
+           Estates.Clear();
+
+            foreach (Estate estate in EstateCollection.GetAllEStates())
+            {
+                Estates.Add(estate);
+            }
+
+            OnPropertyChanged(nameof(Estates));
+        }
+
+        /// <summary>
+        /// Methods for resetting all properties bound to input controls
+        /// </summary>
+        private void Reset()
         {
             IsEditing = false;
             IsAdding = false;
             AddEstate.RaiseCanExecuteChanged();
             RemoveEstate.RaiseCanExecuteChanged();
             EditEstate.RaiseCanExecuteChanged();
+
             NotCommercial();
             NotInstitutional();
             NotResidential();
 
+            ResetInput();
+        }
+
+        private void ResetInput()
+        {
             EstateImage = null;
             Street = string.Empty;
             City = string.Empty;

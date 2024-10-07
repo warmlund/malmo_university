@@ -1,5 +1,6 @@
 ﻿using real_estate_manager.Enum;
 using real_estate_manager.HelperClasses;
+using real_estate_manager.ListManager;
 using System.Windows.Media.Imaging;
 
 namespace real_estate_manager
@@ -18,7 +19,7 @@ namespace real_estate_manager
         /// <summary>
         /// A method for creating a unique Id 
         /// </summary>
-        public virtual void CreateId(List<Estate> estates)
+        public virtual void CreateId(EstateManager estates)
         {
             if (estates == null || estates.Count == 0)
             {
@@ -26,7 +27,7 @@ namespace real_estate_manager
                 return;
             }
 
-            HashSet<int> existingIds = new HashSet<int>(estates.Select(e => e.Id));
+            HashSet<int> existingIds = new HashSet<int>(estates.GetIds());
 
             int newId = 1;
 

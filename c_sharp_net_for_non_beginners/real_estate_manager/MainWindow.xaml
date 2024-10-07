@@ -27,7 +27,8 @@
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
             <Button x:Name="Add" Content="Add Estate" MinWidth="80" Height="25" Margin="5,0,0,0" Command="{Binding AddEstate}"/>
             <Button x:Name="Remove" Content="Remove Estate" MinWidth="100" Height="25" Margin="10,0,0,0" Command="{Binding RemoveEstate}"/>
-            <Button x:Name="Edit" Content="Edit/Show Estate" MinWidth="100" Height="25" Margin="10,0,0,0" Command="{Binding EditEstate}"/>
+            <Button x:Name="Edit" Content="Edit Estate" MinWidth="100" Height="25" Margin="10,0,0,0" Command="{Binding EditEstate}"/>
+            <Button x:Name="Replace" Content="Replace with new Estate" MinWidth="100" Height="25" Margin="10,0,0,0" Command="{Binding ReplaceEstate}"/>
         </StackPanel>
         
         <DataGrid x:Name="EstateDataGrid" Grid.Row="2" 
