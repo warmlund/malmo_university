@@ -6,6 +6,7 @@
 
 This is a collection of projects made during courses taken at Malmö university.
 
+### Courses
 <h5><i>C# and .NET for non-beginners</i></h5>
 During this course i developed a simple real estate management system. The first part of the course was to learn aobut building
 an inheritence hierarchy, OOP, encapsulation, polymorphism, creating generic classes, etc. The other part of the course was to 
