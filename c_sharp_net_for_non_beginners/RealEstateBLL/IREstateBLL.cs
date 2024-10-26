@@ -1,5 +1,4 @@
-﻿using EstateDTO;
-using EstateDTO.Enum;
+﻿using RealEstateDTO;
 using System.Collections.Generic;
 
 namespace RealEstateBLL

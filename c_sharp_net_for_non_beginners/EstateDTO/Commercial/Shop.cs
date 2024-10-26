@@ -1,4 +1,4 @@
-﻿namespace EstateDTO
+﻿namespace RealEstateDTO
 {
     /// <summary>
     /// Shop estate class inheriting from the commercial abstract class

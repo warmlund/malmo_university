@@ -1,4 +1,4 @@
-﻿namespace EstateDTO
+﻿namespace RealEstateDTO
 {
     /// <summary>
     /// Hotel estate class inheriting from the commercial abstract class

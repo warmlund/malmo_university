@@ -1,7 +1,4 @@
-﻿using EstateDTO.Enum;
-using EstateDTO.HelperClasses;
-
-namespace EstateDTO
+﻿namespace RealEstateDTO
 {
     /// <summary>
     /// Interface for estate objects

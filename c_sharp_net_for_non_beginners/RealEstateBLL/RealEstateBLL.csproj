@@ -15,6 +15,7 @@
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EstateDTO\EstateDTO.csproj" />
+    <ProjectReference Include="..\EstateDTO\RealEstateDTO.csproj" />
+    <ProjectReference Include="..\RealEstateDAL\RealEstateDAL.csproj" />
   </ItemGroup>
 </Project>

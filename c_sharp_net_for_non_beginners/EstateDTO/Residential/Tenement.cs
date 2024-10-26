@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EstateDTO
+namespace RealEstateDTO
 {
     /// <summary>
     /// Class for tenement aparments. inherits apartment
@@ -14,10 +14,10 @@ namespace EstateDTO
 
         public double SalesValue { get => _salesValue; set => _salesValue = value; }
 
-        public Tenement(double residentialArea, int numberOfRooms, int floorLevel, bool hasBalcony, double salesValue) : base(residentialArea,numberOfRooms,floorLevel,hasBalcony)
+        public Tenement(double residentialArea, int numberOfRooms, int floorLevel, bool hasBalcony, double salesValue) : base(residentialArea, numberOfRooms, floorLevel, hasBalcony)
         {
             SalesValue = salesValue;
         }
-        
+
     }
 }

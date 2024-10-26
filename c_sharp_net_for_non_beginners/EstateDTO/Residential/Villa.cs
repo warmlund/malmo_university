@@ -1,4 +1,4 @@
-﻿namespace EstateDTO
+﻿namespace RealEstateDTO
 {
     /// <summary>
     /// Class for estate type villa. inherits abstract class residential

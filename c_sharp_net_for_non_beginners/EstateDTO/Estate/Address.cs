@@ -1,10 +1,9 @@
-﻿using EstateDTO.HelperClasses;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EstateDTO
+namespace RealEstateDTO
 {
     /// <summary>
     /// A class for storing the address of an event
@@ -23,10 +22,10 @@ namespace EstateDTO
 
         public Address(string street, int zipcode, string city, Country country)
         {
-            this._street = street;
-            this._city = city;
-            this._country = country;
-            this._zipcode = zipcode;
+            _street = street;
+            _city = city;
+            _country = country;
+            _zipcode = zipcode;
         }
     }
 }

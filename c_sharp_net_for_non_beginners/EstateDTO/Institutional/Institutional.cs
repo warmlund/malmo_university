@@ -1,4 +1,4 @@
-﻿namespace EstateDTO
+﻿namespace RealEstateDTO
 {
     /// <summary>
     /// Abstract class for institutional estates

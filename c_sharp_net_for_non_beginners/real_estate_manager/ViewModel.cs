@@ -1,13 +1,12 @@
-﻿using EstateDTO;
-using EstateDTO.Enum;
-using EstateDTO.HelperClasses;
+﻿using RealEstateDTO;
 using Microsoft.Win32;
 using RealEstateBLL;
+using RealEstatePL.Commands;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace real_estate_manager
+namespace RealEstatePL
 {
     public class ViewModel : NotifyPropertyChanged
     {
@@ -165,12 +164,12 @@ namespace real_estate_manager
         {
             _realEstateBLL = realEstateBLL;
             //set values for the paroperties bound to comboboxes with respecitve enums
-            Types = EstateTypes.GetValues(typeof(EstateTypes)).Cast<EstateTypes>().ToList();
-            LegalForms = LegalForm.GetValues(typeof(LegalForm)).Cast<LegalForm>().ToList();
-            FactoryTypes = FactoryType.GetValues(typeof(FactoryType)).Cast<FactoryType>().ToList();
-            SchoolTypes = SchoolType.GetValues(typeof(SchoolType)).Cast<SchoolType>().ToList();
-            InstitutionTypes = InstitutionType.GetValues(typeof(InstitutionType)).Cast<InstitutionType>().ToList();
-            Countries = Country.GetValues(typeof(Country)).Cast<Country>().ToList();
+            Types = Enum.GetValues(typeof(EstateTypes)).Cast<EstateTypes>().ToList();
+            LegalForms = Enum.GetValues(typeof(LegalForm)).Cast<LegalForm>().ToList();
+            FactoryTypes = Enum.GetValues(typeof(FactoryType)).Cast<FactoryType>().ToList();
+            SchoolTypes = Enum.GetValues(typeof(SchoolType)).Cast<SchoolType>().ToList();
+            InstitutionTypes = Enum.GetValues(typeof(InstitutionType)).Cast<InstitutionType>().ToList();
+            Countries = Enum.GetValues(typeof(Country)).Cast<Country>().ToList();
 
             Street = string.Empty; //set street value to emtpy
             City = string.Empty; //set city value to empty

@@ -1,7 +1,7 @@
-﻿using EstateDTO.Enum;
+﻿using RealEstateDTO;
 
-namespace EstateDTO
-{
+namespace RealEstateDTO
+{   
     /// <summary>
     /// Factory estate class inheriting from the commercial abstract class
     /// </summary>

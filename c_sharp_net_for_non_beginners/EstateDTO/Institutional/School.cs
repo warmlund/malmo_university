@@ -1,6 +1,4 @@
-﻿using EstateDTO.Enum;
-
-namespace EstateDTO
+﻿namespace RealEstateDTO
 {
     /// <summary>
     /// School estate class inheriting from the commercial abstract class

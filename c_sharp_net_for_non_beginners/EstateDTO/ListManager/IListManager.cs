@@ -1,4 +1,4 @@
-﻿namespace RealEstateBLL.ListManager
+﻿namespace RealEstateDTO
 {
     /// <summary>
     /// Interface for ListManager handling different list operations

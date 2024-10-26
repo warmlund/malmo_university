@@ -1,4 +1,4 @@
-﻿namespace EstateDTO.Enum
+﻿namespace RealEstateDTO
 {
     public enum SchoolType
     {

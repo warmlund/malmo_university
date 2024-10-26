@@ -1,12 +1,10 @@
-﻿using EstateDTO.Enum;
-using EstateDTO.HelperClasses;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EstateDTO
+namespace RealEstateDTO
 {
     public class EstateParameters
     {

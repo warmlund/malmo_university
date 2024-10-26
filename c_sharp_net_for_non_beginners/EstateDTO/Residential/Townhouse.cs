@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EstateDTO
+namespace RealEstateDTO
 {
     /// <summary>
     /// Class for estate type townhouse. inherits villa
@@ -13,7 +13,7 @@ namespace EstateDTO
         private bool _isDetached;
         public bool IsDetached { get => _isDetached; set => _isDetached = value; }
 
-        public Townhouse(double residentialArea, int numberOfRooms, double gardenSize, bool isDetached) : base(residentialArea,numberOfRooms,gardenSize)
+        public Townhouse(double residentialArea, int numberOfRooms, double gardenSize, bool isDetached) : base(residentialArea, numberOfRooms, gardenSize)
         {
             IsDetached = isDetached;
         }

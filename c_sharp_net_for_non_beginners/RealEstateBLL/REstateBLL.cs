@@ -1,9 +1,6 @@
-﻿using EstateDTO;
-using EstateDTO.Enum;
-using EstateDTO.HelperClasses;
-using RealEstateBLL.ListManager;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RealEstateDTO;
 
 namespace RealEstateBLL
 {

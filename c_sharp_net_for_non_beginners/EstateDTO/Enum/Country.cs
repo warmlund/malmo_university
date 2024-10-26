@@ -1,4 +1,4 @@
-﻿namespace EstateDTO.HelperClasses
+﻿namespace RealEstateDTO
 {
     public enum Country
     {

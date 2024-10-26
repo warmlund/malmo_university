@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace real_estate_manager
+namespace RealEstatePL
 {
     internal class BoolVisibilityConverter : IValueConverter
     {

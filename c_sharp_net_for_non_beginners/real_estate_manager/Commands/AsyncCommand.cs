@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace real_estate_manager
+namespace RealEstatePL.Commands
 {
     /// <summary>
     /// A command class inheritng Icommand. Used for binding commands from the UI to the viewmodel.

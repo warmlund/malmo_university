@@ -1,4 +1,4 @@
-﻿namespace EstateDTO
+﻿namespace RealEstateDTO
 {
     /// <summary>
     /// Unoversity estate class inheriting from the commercial abstract class

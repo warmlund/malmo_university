@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\EstateDTO.csproj",
-      "projectName": "EstateDTO",
-      "projectPath": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\EstateDTO.csproj",
+      "projectUniqueName": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\RealEstateDTO.csproj",
+      "projectName": "RealEstateDTO",
+      "projectPath": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\RealEstateDTO.csproj",
       "packagesPath": "C:\\Users\\EMWA\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\obj\\",
       "projectStyle": "PackageReference",

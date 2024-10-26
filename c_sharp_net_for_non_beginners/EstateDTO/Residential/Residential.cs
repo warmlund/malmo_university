@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EstateDTO
+namespace RealEstateDTO
 {
     /// <summary>
     /// Abstract class for estate type residential

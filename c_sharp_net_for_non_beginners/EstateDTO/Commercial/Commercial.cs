@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RealEstateDTO;
 
-namespace EstateDTO
+namespace RealEstateDTO
 {
     /// <summary>
     /// Abstract class for commercial estates
@@ -16,6 +17,6 @@ namespace EstateDTO
         public Commercial(double propertySize)
         {
             this.propertySize = propertySize;
-        }       
+        }
     }
 }

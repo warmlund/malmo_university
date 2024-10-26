@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using RealEstateBLL;
-using EstateDTO;
+using RealEstatePL;
+using RealEstateDTO;
 
 namespace real_estate_manager
 {

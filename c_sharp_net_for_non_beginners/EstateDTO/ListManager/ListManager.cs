@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using EstateDTO;
-
-namespace RealEstateBLL.ListManager
+﻿namespace RealEstateDTO
 {
     public abstract class ListManager<T> : IListManager<T>
     {

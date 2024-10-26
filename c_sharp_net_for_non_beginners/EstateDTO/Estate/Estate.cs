@@ -1,7 +1,5 @@
-﻿using EstateDTO.Enum;
-using EstateDTO.HelperClasses;
-
-namespace EstateDTO
+﻿
+namespace RealEstateDTO
 {
     /// <summary>
     /// Abstract class for estate objects inheriting from the interface
