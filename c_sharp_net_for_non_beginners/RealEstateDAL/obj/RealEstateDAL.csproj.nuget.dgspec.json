@@ -1,0 +1,138 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\RealEstateDAL\\RealEstateDAL.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\RealEstateDTO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\RealEstateDTO.csproj",
+        "projectName": "RealEstateDTO",
+        "projectPath": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\RealEstateDTO.csproj",
+        "packagesPath": "C:\\Users\\EMWA\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\EMWA\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\RealEstateDAL\\RealEstateDAL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\RealEstateDAL\\RealEstateDAL.csproj",
+        "projectName": "RealEstateDAL",
+        "projectPath": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\RealEstateDAL\\RealEstateDAL.csproj",
+        "packagesPath": "C:\\Users\\EMWA\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\RealEstateDAL\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\EMWA\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\RealEstateDTO.csproj": {
+                "projectPath": "C:\\Users\\EMWA\\OneDrive - Bjerking AB\\Dokument\\Plugg\\malmo_university\\c_sharp_net_for_non_beginners\\EstateDTO\\RealEstateDTO.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\RealEstateBLL\bin\Debug\RealEstateBLL.dll
+C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\RealEstateBLL\bin\Debug\RealEstateBLL.pdb
+C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\RealEstateBLL\obj\Debug\RealEstateBLL.csproj.AssemblyReference.cache
+C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\RealEstateBLL\obj\Debug\RealEstateBLL.csproj.CoreCompileInputs.cache
+C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\RealEstateBLL\obj\Debug\RealEstateBLL.dll
+C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\RealEstateBLL\obj\Debug\RealEstateBLL.pdb

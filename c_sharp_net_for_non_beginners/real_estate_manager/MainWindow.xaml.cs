@@ -1,5 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using RealEstateBLL;
+using RealEstatePL;
+using RealEstateDTO;
 
 namespace real_estate_manager
 {
@@ -11,7 +14,8 @@ namespace real_estate_manager
         private ViewModel _viewModel;
         public MainWindow()
         {
-            _viewModel = new ViewModel(); //create instance of viewmodel
+            var realEstateBLL = new REstateBLL();
+            _viewModel = new ViewModel(realEstateBLL); //create instance of viewmodel
             DataContext = _viewModel; //set datacontext to viewmodel
             InitializeComponent(); 
         }
