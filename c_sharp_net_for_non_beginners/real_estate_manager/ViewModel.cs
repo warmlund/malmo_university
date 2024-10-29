@@ -1,10 +1,11 @@
-﻿using RealEstateDTO;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using RealEstateBLL;
+using RealEstateDTO;
 using RealEstatePL.Commands;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using UtilitiesLib;
 
 namespace RealEstatePL
 {
@@ -191,6 +192,7 @@ namespace RealEstatePL
             ReplaceEstate = new AsyncCommand(ReplaceSelectedEstate, CanRemoveOrEditEstate);
 
             Estates = new ObservableCollection<Estate>(); //Create new observablecollection
+         
         }
 
         /// <summary>
@@ -346,7 +348,7 @@ namespace RealEstatePL
             try
             {
                 EstateImage = LoadDialogEstateImage();
-                OnPropertyChanged(nameof(CurrentEstate));
+                //OnPropertyChanged(nameof(CurrentEstate));
             }
 
             catch (Exception ex)
@@ -394,6 +396,7 @@ namespace RealEstatePL
         /// The method is async as to not block the ui thread
         /// </summary>
         /// <returns></returns>
+
         private async Task AddCurrentOrNewEstate()
         {
             IsEditing = true;
@@ -436,7 +439,7 @@ namespace RealEstatePL
                     };
 
                     _currentEstate = _realEstateBLL.CreateEstate(SelectedType, parameters);
-                    UpdateStates(SelectedType);
+                    UpdateEstateBooleans(SelectedType);
                 }
 
                 FinishEditEstate.RaiseCanExecuteChanged();
@@ -444,10 +447,127 @@ namespace RealEstatePL
             }
         }
 
-        private void UpdateStates(EstateTypes selectedType)
+        private void UpdateEstateBooleans(EstateTypes selectedType)
         {
-            throw new NotImplementedException();
+            if (SelectedType == EstateTypes.Villa)
+            {
+                IsResident = true;
+                IsVilla = true;
+                IsTownHouse = false;
+                IsApartment = false;
+                IsTenementApartment = false;
+                IsRentalApartment = false;
+
+                NotCommercial();
+                NotInstitutional();
+            }
+
+            else if (SelectedType == EstateTypes.Townhouse)
+            {
+                IsResident = true;
+                IsTownHouse = true;
+                IsVilla = true;
+                IsApartment = false;
+                IsTenementApartment = false;
+                IsRentalApartment = false;
+
+                NotCommercial();
+                NotInstitutional();
+            }
+
+            else if (SelectedType == EstateTypes.Apartment)
+            {
+                IsResident = true;
+                IsApartment = true;
+                IsVilla = false;
+                IsTownHouse = false;
+
+                NotCommercial();
+                NotInstitutional();
+            }
+
+            else if (SelectedType == EstateTypes.Hotel)
+            {
+                IsCommercial = true;
+                IsHotel = true;
+                IsShop = false;
+                IsWarehouse = false;
+                IsFactory = false;
+
+                NotResidential();
+                NotInstitutional();
+            }
+
+            else if (SelectedType == EstateTypes.Shop)
+            {
+                IsCommercial = true;
+                IsHotel = false;
+                IsShop = true;
+                IsWarehouse = false;
+                IsFactory = false;
+
+                NotResidential();
+                NotInstitutional();
+            }
+
+            else if (SelectedType == EstateTypes.Warehouse)
+            {
+                IsCommercial = true;
+                IsHotel = false;
+                IsShop = false;
+                IsWarehouse = true;
+                IsFactory = false;
+
+                NotResidential();
+                NotInstitutional();
+            }
+
+            else if (SelectedType == EstateTypes.Factory)
+            {
+                IsCommercial = true;
+                IsHotel = false;
+                IsShop = false;
+                IsWarehouse = false;
+                IsFactory = true;
+
+                NotResidential();
+                NotInstitutional();
+            }
+
+            else if (SelectedType == EstateTypes.Hospital)
+            {
+                IsInstitutional = true;
+                IsHospital = true;
+                IsSchool = false;
+                IsUniversity = false;
+
+                NotResidential();
+                NotCommercial();
+            }
+
+            else if (SelectedType == EstateTypes.School)
+            {
+                IsInstitutional = true;
+                IsHospital = false;
+                IsSchool = true;
+                IsUniversity = false;
+
+                NotResidential();
+                NotCommercial();
+            }
+
+            else if (SelectedType == EstateTypes.University)
+            {
+                IsInstitutional = true;
+                IsHospital = false;
+                IsSchool = false;
+                IsUniversity = true;
+
+                NotResidential();
+                NotCommercial();
+            }
         }
+
 
         /// <summary>
         /// A method that removes the selected estate from the collection
@@ -478,11 +598,10 @@ namespace RealEstatePL
 
             if (_currentEstate != null)
             {
-                var estateAddress = new Address(Street, ZipCode, City, SelectedCountry);
-                _currentEstate.EstateAddress = estateAddress;
+                _currentEstate.EstateAddress = _realEstateBLL.CreateAddress(Street, ZipCode, City, SelectedCountry);
                 _currentEstate.LegalForm = SelectedLegalForm;
                 _currentEstate.EstateType = SelectedType;
-                _currentEstate.EstateImage = SelectedEstate.EstateImage;
+                _currentEstate.EstateImage = EstateImage.UriSource.AbsolutePath;
                 _realEstateBLL.CreateId(_currentEstate);
 
                 if (IsAdding)
@@ -640,12 +759,9 @@ namespace RealEstatePL
         public BitmapImage LoadDialogEstateImage()
         {
             BitmapImage image = null;
-
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image Files (*.jpg, *.jpeg, *.png, *.bmp, *.gif, *.tiff, *.ico)|*.jpg;*.jpeg;*.png;*.bmp;*.gif;*.tiff;*.ico";
-            openFileDialog.Title = "Load Image";
-            openFileDialog.Multiselect = false;
-            bool result = (bool)openFileDialog.ShowDialog();
+            bool result;
+            Loadimage(openFileDialog, out result);
 
             if (result)
             {
@@ -658,6 +774,14 @@ namespace RealEstatePL
             }
 
             return image;
+        }
+
+        public void Loadimage(OpenFileDialog openFileDialog, out bool result)
+        {
+            openFileDialog.Filter = "Image Files (*.jpg, *.jpeg, *.png, *.bmp, *.gif, *.tiff, *.ico)|*.jpg;*.jpeg;*.png;*.bmp;*.gif;*.tiff;*.ico";
+            openFileDialog.Title = "Load Image";
+            openFileDialog.Multiselect = false;
+            result = (bool)openFileDialog.ShowDialog();
         }
 
         public BitmapImage CreateEstateImage(string filePath)

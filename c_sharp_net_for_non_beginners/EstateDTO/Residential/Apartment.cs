@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,10 @@ namespace RealEstateDTO
         private int _floorLevel;
         private bool _hasBalcony;
 
+        [JsonProperty("FloorLevel")]
         public int FloorLevel { get => _floorLevel; set => _floorLevel = value; }
+
+        [JsonProperty("HasBalcony")]
         public bool HasBalcony { get => _hasBalcony; set => _hasBalcony = value; }
 
 

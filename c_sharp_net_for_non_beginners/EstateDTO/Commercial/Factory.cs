@@ -1,4 +1,5 @@
-﻿using RealEstateDTO;
+﻿using Newtonsoft.Json;
+using RealEstateDTO;
 
 namespace RealEstateDTO
 {   
@@ -8,6 +9,8 @@ namespace RealEstateDTO
     public class Factory : Commercial
     {
         private FactoryType _factoryType;
+
+        [JsonProperty("FactoryType")]
         public FactoryType FactoryType { get => _factoryType; set => _factoryType = value; }
         public Factory(double propertySize, FactoryType factoryType) : base(propertySize)
         {

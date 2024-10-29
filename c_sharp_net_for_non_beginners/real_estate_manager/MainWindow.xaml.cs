@@ -1,8 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using RealEstateBLL;
-using RealEstatePL;
+﻿using RealEstateBLL;
 using RealEstateDTO;
+using RealEstatePL;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace real_estate_manager
 {
@@ -17,20 +17,20 @@ namespace real_estate_manager
             var realEstateBLL = new REstateBLL();
             _viewModel = new ViewModel(realEstateBLL); //create instance of viewmodel
             DataContext = _viewModel; //set datacontext to viewmodel
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
         /// <summary>
         /// An eventhandler for checking if the selection in the datagridview has changed
         /// </summary>
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) 
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var dataGrid = sender as DataGrid;
 
             var selectedEstate = dataGrid.SelectedItem as Estate;
             int selectedIndex = dataGrid.SelectedIndex;
 
-            if(selectedIndex != -1)
+            if (selectedIndex != -1)
             {
                 _viewModel.SelectedIndex = selectedIndex;
             }
@@ -43,24 +43,6 @@ namespace real_estate_manager
                 _viewModel.ReplaceEstate.RaiseCanExecuteChanged();
             }
         }
-
-        /// <summary>
-        /// An eventhandler that only accepts whole numbers
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EnableOnlyIntegers(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            foreach (var ch in e.Text)
-            {
-                if (!char.IsDigit(ch))
-                {
-                    e.Handled = true;
-                    return;
-                }
-            }
-        }
-
 
         /// <summary>
         /// An eventhandler that only accepts whole or decimal values

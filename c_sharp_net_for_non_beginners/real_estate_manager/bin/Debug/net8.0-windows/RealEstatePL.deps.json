@@ -9,7 +9,8 @@
       "RealEstatePL/1.0.0": {
         "dependencies": {
           "RealEstateBLL": "1.0.0",
-          "RealEstateDTO": "1.0.0"
+          "RealEstateDTO": "1.0.0",
+          "UtilitiesLib": "1.0.0"
         },
         "runtime": {
           "RealEstatePL.dll": {}
@@ -52,8 +53,19 @@
         }
       },
       "RealEstateDTO/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
         "runtime": {
           "RealEstateDTO.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "UtilitiesLib/1.0.0": {
+        "runtime": {
+          "UtilitiesLib.dll": {
             "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -99,6 +111,11 @@
       "sha512": ""
     },
     "RealEstateDTO/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UtilitiesLib/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

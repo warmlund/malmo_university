@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EstateDTO\RealEstateDTO.csproj" />
     <ProjectReference Include="..\RealEstateBLL\RealEstateBLL.csproj" />
+    <ProjectReference Include="..\UtilitiesLib\UtilitiesLib.csproj" />
   </ItemGroup>
 
 </Project>

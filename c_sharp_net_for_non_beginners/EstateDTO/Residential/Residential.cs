@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,10 @@ namespace RealEstateDTO
     /// </summary>
     public abstract class Residential : Estate
     {
+        [JsonProperty("ResidentialArea")]
         public double ResidentialArea { get; set; }
+
+        [JsonProperty("NumberOfRooms")]
         public int NumberOfRooms { get; set; }
 
         public Residential(double residentialArea, int numberOfRooms)
