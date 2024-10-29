@@ -2,8 +2,24 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/c_sharp_net_for_non_beginners/real_estate_manager/obj
+# Ignore Visual Studio specific folders
+/.vs/
+/c_sharp_net_for_non_beginners/real_estate_manager/obj/
+/c_sharp_net_for_non_beginners/real_estate_manager/bin/
+
+# Ignore build artifacts for Debug and Release configurations
+**/bin/Debug/
+**/bin/Release/
+**/bin/Debug/net8.0-windows/
+**/bin/Release/net8.0-windows/
+**/obj/
+
+# Ignore generated binaries
+*.exe
+*.dll
+*.pdb
+
+# Ignore temporary files
+*.cache
+*.log
 /c_sharp_net_for_non_beginners/real_estate_manager/.vs
-/c_sharp_net_for_non_beginners/real_estate_manager/bin/Debug/net8.0-windows/real_estate_manager.pdb
-/c_sharp_net_for_non_beginners/real_estate_manager/bin/Debug/net8.0-windows/real_estate_manager.exe
-/c_sharp_net_for_non_beginners/real_estate_manager/bin/Debug/net8.0-windows/real_estate_manager.dll
