@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using RealEstateDTO;
+using RealEstateDAL;
+using System.Windows.Input;
 
 namespace RealEstateBLL
 {
     public class REstateBLL : IREstateBLL
     {
+        real
         EstateManager _esstateManager;
         public REstateBLL()
         {
@@ -26,7 +29,7 @@ namespace RealEstateBLL
                 EstateTypes.Hospital => new Hospital(parameters.SelectedInstitutionType, parameters.NumberOfStaff, parameters.HasEmergencyDept),
                 EstateTypes.School => new School(parameters.SelectedInstitutionType, parameters.NumberOfStaff, parameters.SelectedSchoolType),
                 EstateTypes.University => new University(parameters.SelectedInstitutionType, parameters.NumberOfStaff, parameters.NumberOfFacs),
-                _ => throw new ArgumentException("Invalid estate type")
+                _ => null
             };
         }
         private Estate CreateApartment(EstateParameters parameters)
@@ -38,7 +41,6 @@ namespace RealEstateBLL
                 _ => new Apartment(parameters.ResidentialArea, parameters.NumberOfRooms, parameters.FloorLevel, parameters.HasBalcony)
             };
         }
-
 
         public void AddEstate(Estate estate)
         {
@@ -84,5 +86,9 @@ namespace RealEstateBLL
             estate.Id = newId;
         }
 
+        public Address CreateAddress(string street, int zipCode, string city, Country country)
+        {
+            return new Address(street, zipCode, city, country);
+        }
     }
 }

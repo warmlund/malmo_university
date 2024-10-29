@@ -1,6 +1,7 @@
 ﻿using RealEstateDTO;
 using System.Collections.Generic;
 
+
 namespace RealEstateBLL
 {
     public interface IREstateBLL
@@ -11,5 +12,6 @@ namespace RealEstateBLL
         List<Estate> GetAllEstates();
         void ReplaceEstate(Estate currentEstate, int selectedIndex);
         void CreateId(Estate estate);
+        Address CreateAddress(string street, int zipCode, string city, Country country);
     }
 }
