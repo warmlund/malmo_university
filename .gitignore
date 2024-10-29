@@ -398,3 +398,21 @@ FodyWeavers.xsd
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
+/c_sharp_net_for_non_beginners/RealEstateDAL/obj/Debug/net8.0/RealEstateDAL.csproj.AssemblyReference.cache
+/c_sharp_net_for_non_beginners/RealEstateDAL/obj/Debug/net8.0/RealEstateDAL.AssemblyInfo.cs
+/c_sharp_net_for_non_beginners/RealEstateDAL/obj/Debug/net8.0/RealEstateDAL.AssemblyInfoInputs.cache
+/c_sharp_net_for_non_beginners/EstateDTO/obj/Debug/net8.0/RealEstateDTO.AssemblyInfo.cs
+/c_sharp_net_for_non_beginners/EstateDTO/obj/Debug/net8.0/RealEstateDTO.AssemblyInfoInputs.cache
+/c_sharp_net_for_non_beginners/UtilitiesLib/obj/Debug/net8.0/UtilitiesLib.AssemblyInfo.cs
+/c_sharp_net_for_non_beginners/UtilitiesLib/obj/Debug/net8.0/UtilitiesLib.AssemblyInfoInputs.cache
+/c_sharp_net_for_non_beginners/RealEstateBLL/obj/Debug/net8.0/RealEstateBLL.csproj.AssemblyReference.cache
+/c_sharp_net_for_non_beginners/RealEstateDAL/obj/Debug/net8.0/RealEstateDAL.csproj.BuildWithSkipAnalyzers
+/c_sharp_net_for_non_beginners/real_estate_manager/bin/Debug/net8.0-windows/UtilitiesLib.pdb
+/c_sharp_net_for_non_beginners/real_estate_manager/bin/Debug/net8.0-windows/UtilitiesLib.dll
+/c_sharp_net_for_non_beginners/UtilitiesLib/bin/Debug/net8.0/UtilitiesLib.deps.json
+/c_sharp_net_for_non_beginners/UtilitiesLib/bin/Debug/net8.0/UtilitiesLib.dll
+/c_sharp_net_for_non_beginners/UtilitiesLib/bin/Debug/net8.0/UtilitiesLib.pdb
+/c_sharp_net_for_non_beginners/UtilitiesLib/obj/Debug/net8.0/ref/UtilitiesLib.dll
+/c_sharp_net_for_non_beginners/UtilitiesLib/obj/Debug/net8.0/refint/UtilitiesLib.dll
+/c_sharp_net_for_non_beginners/RealEstateBLL/obj/Debug/net8.0/RealEstateBLL.csproj.BuildWithSkipAnalyzers
+/c_sharp_net_for_non_beginners/EstateDTO/obj/Debug/net8.0/RealEstateDTO.csproj.AssemblyReference.cache
