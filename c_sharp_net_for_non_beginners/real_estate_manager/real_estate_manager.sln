@@ -4,12 +4,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePL", "RealEstatePL.csproj", "{33EA4F98-4663-4BDF-AFF2-D2905F7BD17F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61BE5753-E9D3-4F25-A294-C83D0C0AC9F7} = {61BE5753-E9D3-4F25-A294-C83D0C0AC9F7}
+		{9EDCEE57-FE59-4D24-B567-DF053EC2B97B} = {9EDCEE57-FE59-4D24-B567-DF053EC2B97B}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstateBLL", "..\RealEstateBLL\RealEstateBLL.csproj", "{9EDCEE57-FE59-4D24-B567-DF053EC2B97B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61BE5753-E9D3-4F25-A294-C83D0C0AC9F7} = {61BE5753-E9D3-4F25-A294-C83D0C0AC9F7}
+		{6ECC133A-9AF6-413A-A7B3-219061C1A900} = {6ECC133A-9AF6-413A-A7B3-219061C1A900}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstateDTO", "..\EstateDTO\RealEstateDTO.csproj", "{61BE5753-E9D3-4F25-A294-C83D0C0AC9F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstateDAL", "..\RealEstateDAL\RealEstateDAL.csproj", "{6ECC133A-9AF6-413A-A7B3-219061C1A900}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61BE5753-E9D3-4F25-A294-C83D0C0AC9F7} = {61BE5753-E9D3-4F25-A294-C83D0C0AC9F7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilitiesLib", "..\UtilitiesLib\UtilitiesLib.csproj", "{179CD13E-CE5A-4149-BE10-7E4BF6107A4F}"
 EndProject

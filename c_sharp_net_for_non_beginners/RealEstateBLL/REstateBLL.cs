@@ -8,7 +8,6 @@ namespace RealEstateBLL
 {
     public class REstateBLL : IREstateBLL
     {
-        real
         EstateManager _esstateManager;
         public REstateBLL()
         {

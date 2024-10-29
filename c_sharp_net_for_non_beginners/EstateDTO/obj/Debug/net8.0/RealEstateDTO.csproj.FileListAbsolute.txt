@@ -1,6 +1,7 @@
 C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\bin\Debug\net8.0\RealEstateDTO.deps.json
 C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\bin\Debug\net8.0\RealEstateDTO.dll
 C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\bin\Debug\net8.0\RealEstateDTO.pdb
+C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\obj\Debug\net8.0\RealEstateDTO.csproj.AssemblyReference.cache
 C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\obj\Debug\net8.0\RealEstateDTO.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\obj\Debug\net8.0\RealEstateDTO.AssemblyInfoInputs.cache
 C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\obj\Debug\net8.0\RealEstateDTO.AssemblyInfo.cs
@@ -10,4 +11,3 @@ C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net
 C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\obj\Debug\net8.0\refint\RealEstateDTO.dll
 C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\obj\Debug\net8.0\RealEstateDTO.pdb
 C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\obj\Debug\net8.0\ref\RealEstateDTO.dll
-C:\Users\EMWA\OneDrive - Bjerking AB\Dokument\Plugg\malmo_university\c_sharp_net_for_non_beginners\EstateDTO\obj\Debug\net8.0\RealEstateDTO.csproj.AssemblyReference.cache
