@@ -1,4 +1,8 @@
-﻿namespace RealEstateDTO
+﻿using RealEstateDAL;
+using RealEstateDTO;
+using System.Collections.Generic;
+
+namespace RealEstateBLL
 {
     public class EstateManager : ListManager<Estate>
     {

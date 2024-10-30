@@ -5,7 +5,6 @@ using RealEstatePL.Commands;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using UtilitiesLib;
 
 namespace RealEstatePL
 {
@@ -183,16 +182,16 @@ namespace RealEstatePL
             NotResidential();
 
             //Creating commands for all buttons and setting moethods to each one
-            AddEstate = new AsyncCommand(AddNewEstate, CanAddEstate);
+            AddEstate = new AsyncCommand(AddNewEstateAsync, CanAddEstate);
             RemoveEstate = new Command(RemoveCurrentEstate, CanRemoveOrEditEstate);
-            EditEstate = new AsyncCommand(EditSelectedEstate, CanRemoveOrEditEstate);
+            EditEstate = new AsyncCommand(EditSelectedEstateAsync, CanRemoveOrEditEstate);
             FinishEditEstate = new Command(FinishEditing, CanFinishEditing);
             CancelEdit = new Command(CancelEditingState, CanCancel);
             LoadImage = new Command(LoadEstateImage, CanLoadImage);
-            ReplaceEstate = new AsyncCommand(ReplaceSelectedEstate, CanRemoveOrEditEstate);
+            ReplaceEstate = new AsyncCommand(ReplaceSelectedEstateAsync, CanRemoveOrEditEstate);
 
             Estates = new ObservableCollection<Estate>(); //Create new observablecollection
-         
+
         }
 
         /// <summary>
@@ -360,33 +359,33 @@ namespace RealEstatePL
         /// <summary>
         /// A method for adding new estates
         /// </summary>
-        private async Task AddNewEstate()
+        private async Task AddNewEstateAsync()
         {
             IsAdding = true;
-            await AddCurrentOrNewEstate();
+            await AddCurrentOrNewEstateAsync();
         }
 
         /// <summary>
         /// a method for editing existing estates. 
         /// </summary>
-        private async Task EditSelectedEstate()
+        private async Task EditSelectedEstateAsync()
         {
             IsAdding = false;
             _currentEstate = SelectedEstate;
             SetExistingInputValues();
             OnPropertyChanged(nameof(CurrentEstate));
-            await AddCurrentOrNewEstate();
+            await AddCurrentOrNewEstateAsync();
         }
 
         /// <summary>
         /// a method for replacing the selected estate with a new estate
         /// </summary>
-        private async Task ReplaceSelectedEstate()
+        private async Task ReplaceSelectedEstateAsync()
         {
             IsAdding = false;
             SelectedEstate = _currentEstate;
             OnPropertyChanged(nameof(CurrentEstate));
-            await AddCurrentOrNewEstate();
+            await AddCurrentOrNewEstateAsync();
         }
 
         /// <summary>
@@ -397,7 +396,7 @@ namespace RealEstatePL
         /// </summary>
         /// <returns></returns>
 
-        private async Task AddCurrentOrNewEstate()
+        private async Task AddCurrentOrNewEstateAsync()
         {
             IsEditing = true;
             _tokenSource = new CancellationTokenSource();

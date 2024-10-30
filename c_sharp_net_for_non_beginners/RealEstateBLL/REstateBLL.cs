@@ -1,8 +1,5 @@
-﻿using System;
+﻿using RealEstateDTO;
 using System.Collections.Generic;
-using RealEstateDTO;
-using RealEstateDAL;
-using System.Windows.Input;
 
 namespace RealEstateBLL
 {
