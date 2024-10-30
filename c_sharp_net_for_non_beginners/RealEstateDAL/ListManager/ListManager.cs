@@ -1,4 +1,4 @@
-﻿namespace RealEstateDTO
+﻿namespace RealEstateDAL
 {
     public abstract class ListManager<T> : IListManager<T>
     {

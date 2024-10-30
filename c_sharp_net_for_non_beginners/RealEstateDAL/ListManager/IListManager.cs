@@ -1,4 +1,4 @@
-﻿namespace RealEstateDTO
+﻿namespace RealEstateDAL
 {
     /// <summary>
     /// Interface for ListManager handling different list operations
